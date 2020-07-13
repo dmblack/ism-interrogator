@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- June 2020 -->
+<ISM>
+	<Control>
+		<Guideline>Guidelines for Cyber Security Roles</Guideline>
+		<Section>Chief Information Security Officer</Section>
+		<Topic>Cyber security leadership</Topic>
+		<Identifier>0714</Identifier>
+		<Revision>4</Revision>
+		<Updated>Sep-18</Updated>
+		<OFFICIAL>Yes</OFFICIAL>
+		<PROTECTED>Yes</PROTECTED>
+		<SECRET>Yes</SECRET>
+		<TOP_SECRET>Yes</TOP_SECRET>
+		<Description>A CISO is appointed to provide cyber security leadership for their organisation.</Description>
+	</Control>
+	<Control>
+		<Guideline>Guidelines for Cyber Security Roles</Guideline>
+		<Section>Chief Information Security Officer</Section>
+		<Topic>Responsibilities</Topic>
+		<Identifier>1478</Identifier>
+		<Revision>0</Revision>
+		<Updated>Sep-18</Updated>
+		<OFFICIAL>Yes</OFFICIAL>
+		<PROTECTED>Yes</PROTECTED>
+		<SECRET>Yes</SECRET>
+		<TOP_SECRET>Yes</TOP_SECRET>
+		<Description>The CISO provides strategic-level guidance for their organisation’s cyber security program and ensures their organisation’s compliance with cyber security policy, standards, regulations and legislation.</Description>
+	</Control>
+	<Control>
+		<Guideline>Guidelines for Cyber Security Roles</Guideline>
+		<Section>System owners</Section>
+		<Topic>System ownership</Topic>
+		<Identifier>1071</Identifier>
+		<Revision>1</Revision>
+		<Updated>Sep-18</Updated>
+		<OFFICIAL>Yes</OFFICIAL>
+		<PROTECTED>Yes</PROTECTED>
+		<SECRET>Yes</SECRET>
+		<TOP_SECRET>Yes</TOP_SECRET>
+		<Description>Each system has a designated system owner.</Description>
+	</Control>
+</ISM>

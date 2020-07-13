@@ -17,14 +17,13 @@ const App = () => {
   const handleChange = e => setFilter(e.target.value);
 
   return (
-    <div className="App">
+    <div className="App container">
         <input
           value={filter}
           type="text"
           onChange={handleChange}
         />
 	  <div className="row">
-
       {ISMControls}
 	  </div>
     </div>

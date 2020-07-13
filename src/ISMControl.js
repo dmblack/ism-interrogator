@@ -3,40 +3,33 @@ import './ISMControl.css';
 
 function ISMControl(props) {
   return (
-    <div className="card ISMControl">
-      <div className="card-header">
-	    <p className="card-title identifier">
+    <div className="card control">
+      <div className="card-header control-identifier">
 	      {props.control.Identifier}
-	  </p>
 	  </div>
 	  <ul className="list-group list-group-flush">
-      <li className="list-group-item guideline">
+      <li className="list-group-item control-guideline">
         {props.control.Guideline}
       </li>
-	    <li className="list-group-item section">
+	    <li className="list-group-item control-section">
 	      {props.control.Section}
 	    </li>
-	    <li className="list-group-item topic">
+	    <li className="list-group-item control-topic">
 	      {props.control.Topic}
 	    </li>
-	    <li className="list-group-item applicability">
+	    <li className="list-group-item control-applicability">
 	      Applicability:  
-	      {props.control.OFFICIAL === "Yes" ? "O " : ""}
+	      {props.control.OFFICIAL === "Yes" ? " O " : " "}
 	      {props.control.PROTECTED === "Yes" ? "P " : ""}
 	      {props.control.SECRET === "Yes" ? "S " : ""}
 	      {props.control.TOP_SECRET === "Yes" ? "TS " : ""}
 	    </li>
-	    <li className="list-group-item revision">
-	      Revision: {props.control.Revision}
-	    </li>
-	    <li className="list-group-item updated">
-	      Update: {props.control.Updated}
-  	  </li>
 	  </ul>
-	  <div className="card-body">
-  	  <p className="card-text description">
+	  <div className="card-body control-description">
   	    {props.control.Description}
-  	  </p>
+	  </div>
+	  <div className="card-footer control-revision control-updated">
+	      Revision: {props.control.Revision} Updated: {props.control.Updated}
 	  </div>
     </div>
   );

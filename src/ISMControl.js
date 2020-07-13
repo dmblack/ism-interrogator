@@ -3,30 +3,34 @@ import './ISMControl.css';
 
 function ISMControl(props) {
   return (
-    <div className="ISMControl">
-      <body>
-      <p className="guideline">
-        {props.control.Guideline}
-      </p>
-	    <p className="section">
-	      {props.control.Section}
-	    </p>
-	    <p className="topic">
-	      {props.control.Topic}
-	    </p>
-	    <p className="identifier">
+    <div className="card ISMControl">
+      <div className="card-header">
+	    <p className="card-title identifier">
 	      {props.control.Identifier}
-	    </p>
-	    <p className="revision">
-	      {props.control.Revision}
-	    </p>
-	    <p className="updated">
-	      {props.control.Updated}
-  	  </p>
-  	  <p className="description">
+	  </p>
+	  </div>
+	  <ul className="list-group list-group-flush">
+      <li className="list-group-item guideline">
+        {props.control.Guideline}
+      </li>
+	    <li className="list-group-item section">
+	      {props.control.Section}
+	    </li>
+	    <li className="list-group-item topic">
+	      {props.control.Topic}
+	    </li>
+	    <li className="list-group-item revision">
+	      Revision: {props.control.Revision}
+	    </li>
+	    <li className="list-group-item updated">
+	      Update: {props.control.Updated}
+  	  </li>
+	  </ul>
+	  <div className="card-body">
+  	  <p className="card-text description">
   	    {props.control.Description}
   	  </p>
-  	  </body>
+	  </div>
     </div>
   );
 }

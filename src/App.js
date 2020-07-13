@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import ISMControl from './ISMControl.js';
 import ISMRaw from './ISM.json';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const App = () => {
   const [ filter, setFilter ] = useState(
@@ -17,14 +18,15 @@ const App = () => {
 
   return (
     <div className="App">
-      <header>
         <input
           value={filter}
           type="text"
           onChange={handleChange}
         />
-      </header>
+	  <div className="row">
+
       {ISMControls}
+	  </div>
     </div>
   );
 }

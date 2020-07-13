@@ -19,6 +19,13 @@ function ISMControl(props) {
 	    <li className="list-group-item topic">
 	      {props.control.Topic}
 	    </li>
+	    <li className="list-group-item applicability">
+	      Applicability:  
+	      {props.control.OFFICIAL === "Yes" ? "O " : ""}
+	      {props.control.PROTECTED === "Yes" ? "P " : ""}
+	      {props.control.SECRET === "Yes" ? "S " : ""}
+	      {props.control.TOP_SECRET === "Yes" ? "TS " : ""}
+	    </li>
 	    <li className="list-group-item revision">
 	      Revision: {props.control.Revision}
 	    </li>

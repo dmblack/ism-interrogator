@@ -10,7 +10,8 @@
     "bootstrap": "^4.5.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-scrollable-anchor": "^0.6.1"
   },
   "scripts": {
     "predeploy": "npm run build",

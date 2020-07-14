@@ -1,12 +1,15 @@
 import React from 'react';
 import './ISMControl.css';
+import ScrollableAnchor from 'react-scrollable-anchor'
 
 function ISMControl(props) {
   return (
     <div className="card control">
+      <ScrollableAnchor id={props.control.Identifier}>
       <div className="card-header control-identifier">
-	      {props.control.Identifier}
+	     {props.control.Identifier}
 	  </div>
+	  </ScrollableAnchor>
 	  <ul className="list-group list-group-flush">
       <li className="list-group-item control-guideline">
         {props.control.Guideline}

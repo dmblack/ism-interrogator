@@ -6,11 +6,11 @@ function ISMControl(props) {
   return (
     <div className="card control">
       <ScrollableAnchor id={props.control.Identifier}>
-      <div className="card-header control-identifier">
-	     {props.control.Identifier}
-	  </div>
-	  </ScrollableAnchor>
-	  <ul className="list-group list-group-flush">
+        <div className="card-header control-identifier">
+	        {props.control.Identifier}
+	      </div>
+	    </ScrollableAnchor>
+	    <ul className="list-group list-group-flush">
       <li className="list-group-item control-guideline">
         {props.control.Guideline}
       </li>

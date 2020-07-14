@@ -36,37 +36,58 @@ const App = () => {
 
   return (
     <div className="App container">
-		  <label for="description">
-		    Description
-		  </label>
-      <input
-		    id="description"
-        value={descriptionFilter}
-        type="text"
-				onChange={handleDescriptionChange}
-      />
-		  <label for="guideline">
-		    Guideline
-		  </label>
-		  <select
-				name="guideline"
-				id="guideline"
-		    onChange={handleGuidelineChange}>
-		    <option value=""></option>
-				{guidelineOptions}
-		  </select>
-		  <label for="identifier">
-				Identifier
-		  </label>
-		  <input
-		    id="identifier"
-		    value={identifierFilter}
-		    type="text"
-		    onChange={handleIdentifierChange}
-		  />
-	  <div className="row">
-      {ISMControls}
-	  </div>
+      <div className="modal-header">
+        <h4 className="title">Search</h4>
+      </div>
+      <div className="form-group row filters">
+		    <label
+		      for="description"
+		      className="col-sm-2 col-form-label">
+		      Description
+		    </label>
+        <input
+		      id="description"
+          value={descriptionFilter}
+          type="text"
+				  onChange={handleDescriptionChange}
+		      className="form-control col-sm-10"
+        />
+      </div>
+      <div className="form-group row">
+		    <label
+		      for="guideline"
+		      className="col-sm-2 col-form-label">
+		      Guideline
+		    </label>
+		    <select
+				  name="guideline"
+				  id="guideline"
+		      onChange={handleGuidelineChange}
+		      className="form-control col-sm-10">
+		      <option value=""></option>
+				  {guidelineOptions}
+		    </select>
+		  </div>
+      <div className="form-group row">
+		    <label
+		      for="identifier"
+		      class="col-sm-2 col-form-label">
+				  Identifier
+		    </label>
+		    <input
+		      id="identifier"
+		      value={identifierFilter}
+		      type="text"
+		      onChange={handleIdentifierChange}
+		      className="form-controli col-sm-10"
+		    />
+		  </div>
+      <div className="modal-header">
+        <h4 className="title">Controls</h4>
+      </div>
+      <div className="row">
+        {ISMControls}
+	    </div>
     </div>
   );
 }

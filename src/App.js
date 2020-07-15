@@ -37,7 +37,7 @@ const App = () => {
   return (
     <div className="App container">
       <div className="modal-header">
-        <h4 className="title">Search</h4>
+        <h4 className="title">Search ({ISMControls.length})</h4>
       </div>
       <div className="htmlFor=m-group row filters">
 		    <label

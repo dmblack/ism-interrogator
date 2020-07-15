@@ -17,32 +17,32 @@ const App = () => {
 		''
 	);
   
-  const ISM = Object.entries(ISMRaw.ISM.Control);
+  const ISM = ISMRaw.ISM.Control;
   const ISMControls = ISM
-    .filter((control) => control[1].Description.includes(descriptionFilter))
-	  .filter((control) => control[1].Guideline.includes(guidelineFilter))
-	  .filter((control) => control[1].Identifier.includes(identifierFilter))
-    .map((control) => <ISMControl key={control[1].Identifier} control={control[1]} />);
+    .filter((control) => control.Description[0].includes(descriptionFilter))
+	  .filter((control) => control.Guideline[0].includes(guidelineFilter))
+	  .filter((control) => control.Identifier[0].includes(identifierFilter))
+    .map((control) => <ISMControl key={control.Identifier[0]} control={control} />);
 
   const handleDescriptionChange = e => setDescriptionFilter(e.target.value);
 	const handleGuidelineChange = e => setGuidelineFilter(e.target.value);
 	const handleIdentifierChange = e => setIdentifierFilter(e.target.value);
 
 	const guidelines = [...new Set(ISM
-	  .map((control) => control[1].Guideline))];
+	  .map((control) => control.Guideline[0]))];
 
 	const guidelineOptions = guidelines
-  	.map((guideline) => <option value={guideline}>{guideline}</option>);
+  	.map((guideline) => <option key={guideline} value={guideline}>{guideline}</option>);
 
   return (
     <div className="App container">
       <div className="modal-header">
         <h4 className="title">Search</h4>
       </div>
-      <div className="form-group row filters">
+      <div className="htmlFor=m-group row filters">
 		    <label
-		      for="description"
-		      className="col-sm-2 col-form-label">
+		      htmlFor="description"
+		      className="col-sm-2 col-htmlFor=m-label">
 		      Description
 		    </label>
         <input
@@ -50,28 +50,28 @@ const App = () => {
           value={descriptionFilter}
           type="text"
 				  onChange={handleDescriptionChange}
-		      className="form-control col-sm-10"
+		      className="htmlFor=m-control col-sm-10"
         />
       </div>
-      <div className="form-group row">
+      <div className="htmlFor=m-group row">
 		    <label
-		      for="guideline"
-		      className="col-sm-2 col-form-label">
+		      htmlFor="guideline"
+		      className="col-sm-2 col-htmlFor=m-label">
 		      Guideline
 		    </label>
 		    <select
 				  name="guideline"
 				  id="guideline"
 		      onChange={handleGuidelineChange}
-		      className="form-control col-sm-10">
+		      className="htmlFor=m-control col-sm-10">
 		      <option value=""></option>
 				  {guidelineOptions}
 		    </select>
 		  </div>
-      <div className="form-group row">
+      <div className="htmlFor=m-group row">
 		    <label
-		      for="identifier"
-		      class="col-sm-2 col-form-label">
+		      htmlFor="identifier"
+		      className="col-sm-2 col-htmlFor=m-label">
 				  Identifier
 		    </label>
 		    <input
@@ -79,7 +79,7 @@ const App = () => {
 		      value={identifierFilter}
 		      type="text"
 		      onChange={handleIdentifierChange}
-		      className="form-controli col-sm-10"
+		      className="htmlFor=m-controli col-sm-10"
 		    />
 		  </div>
       <div className="modal-header">

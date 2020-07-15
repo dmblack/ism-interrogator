@@ -5,7 +5,7 @@ import ScrollableAnchor from 'react-scrollable-anchor'
 function ISMControl(props) {
   return (
     <div className="card control">
-      <ScrollableAnchor id={props.control.Identifier}>
+      <ScrollableAnchor id={props.control.Identifier[0]}>
         <div className="card-header control-identifier">
 	        {props.control.Identifier}
 	      </div>

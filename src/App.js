@@ -20,18 +20,18 @@ const App = () => {
   
   const ISM = ISMRaw.ISM.Control;
   const ISMControls = ISM
-    .filter((control) => control.Description[0].includes(descriptionFilter))
-	  .filter((control) => control.Guideline[0].includes(guidelineFilter))
-	  .filter((control) => control.Identifier[0].includes(identifierFilter))
-	  .sort((controlA, controlB) => controlA.Identifier[0] - controlB.Identifier[0])
-    .map((control) => <ISMControl key={control.Identifier[0]} control={control} />);
+    .filter((control) => control.Description.includes(descriptionFilter))
+	  .filter((control) => control.Guideline.includes(guidelineFilter))
+	  .filter((control) => control.Identifier.includes(identifierFilter))
+	  .sort((controlA, controlB) => controlA.Identifier - controlB.Identifier)
+    .map((control) => <ISMControl key={control.Identifier} control={control} />);
 
   const handleDescriptionChange = e => setDescriptionFilter(e.target.value);
 	const handleGuidelineChange = e => setGuidelineFilter(e.target.value);
 	const handleIdentifierChange = e => setIdentifierFilter(e.target.value);
 
 	const guidelines = [...new Set(ISM
-	  .map((control) => control.Guideline[0]))];
+	  .map((control) => control.Guideline))];
 
 	const guidelineOptions = guidelines
   	.map((guideline) => <option key={guideline} value={guideline}>{guideline}</option>);

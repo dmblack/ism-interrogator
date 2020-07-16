@@ -91,7 +91,7 @@ const App = () => {
       <div className="modal-header">
         <h4 className="title">Controls ({ISMControls.length})</h4>
       </div>
-      <div className="row">
+      <div className="list-group">
         {ISMControls}
 	    </div>
     </div>

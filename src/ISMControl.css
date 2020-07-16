@@ -14,9 +14,10 @@
 .control {
   margin: 0 auto;
   float: none;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  max-width: 30%
+}
+
+.control p {
+  white-space: pre-wrap;
 }
 
 .ISMControl-logo {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import './App.css';
 import ISMControl from './ISMControl.js';
@@ -41,10 +41,10 @@ const App = () => {
       <div className="modal-header">
         <h4 className="title">Search</h4>
       </div>
-      <div className="htmlFor=m-group row filters">
+      <div className="form-group row filters">
 		    <label
 		      htmlFor="description"
-		      className="col-sm-2 col-htmlFor=m-label">
+		      className="col-sm-2 col-form-label">
 		      Description
 		    </label>
         <DebounceInput
@@ -54,28 +54,28 @@ const App = () => {
           value={descriptionFilter}
           type="text"
 				  onChange={handleDescriptionChange}
-		      className="htmlFor=m-control col-sm-10"
+		      className="form-control col-sm-10"
         />
       </div>
-      <div className="htmlFor=m-group row">
+      <div className="form-group row">
 		    <label
 		      htmlFor="guideline"
-		      className="col-sm-2 col-htmlFor=m-label">
+		      className="col-sm-2 col-form-label">
 		      Guideline
 		    </label>
 		    <select
 				  name="guideline"
 				  id="guideline"
 		      onChange={handleGuidelineChange}
-		      className="htmlFor=m-control col-sm-10">
+		      className="form-control col-sm-10">
 		      <option value=""></option>
 				  {guidelineOptions}
 		    </select>
 		  </div>
-      <div className="htmlFor=m-group row">
+      <div className="form-group row">
 		    <label
 		      htmlFor="identifier"
-		      className="col-sm-2 col-htmlFor=m-label">
+		      className="col-sm-2 col-form-label">
 				  Identifier
 		    </label>
 		    <DebounceInput
@@ -85,7 +85,7 @@ const App = () => {
 		      value={identifierFilter}
 		      type="text"
 		      onChange={handleIdentifierChange}
-		      className="htmlFor=m-controli col-sm-10"
+		      className="form-control col-sm-10"
 		    />
 		  </div>
       <div className="modal-header">

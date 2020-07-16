@@ -22,6 +22,7 @@ const App = () => {
     .filter((control) => control.Description[0].includes(descriptionFilter))
 	  .filter((control) => control.Guideline[0].includes(guidelineFilter))
 	  .filter((control) => control.Identifier[0].includes(identifierFilter))
+	  .sort((controlA, controlB) => controlA.Identifier[0] - controlB.Identifier[0])
     .map((control) => <ISMControl key={control.Identifier[0]} control={control} />);
 
   const handleDescriptionChange = e => setDescriptionFilter(e.target.value);

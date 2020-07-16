@@ -22,10 +22,10 @@ function ISMControl(props) {
 	    </li>
 	    <li className="list-group-item control-applicability">
 	      Applicability:  
-	      {props.control.OFFICIAL === "Yes" ? " O " : " "}
-	      {props.control.PROTECTED === "Yes" ? "P " : ""}
-	      {props.control.SECRET === "Yes" ? "S " : ""}
-	      {props.control.TOP_SECRET === "Yes" ? "TS " : ""}
+	      {props.control.OFFICIAL[0] === "Yes" ? " O " : " "}
+	      {props.control.PROTECTED[0] === "Yes" ? "P " : ""}
+	      {props.control.SECRET[0] === "Yes" ? "S " : ""}
+	      {props.control.TOP_SECRET[0] === "Yes" ? "TS " : ""}
 	    </li>
 	  </ul>
 	  <div className="card-body control-description">

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { DebounceInput } from 'react-debounce-input';
 import './App.css';
 import ISMControl from './ISMControl.js';
 import ISMRaw from './ISM.json';
@@ -46,7 +47,9 @@ const App = () => {
 		      className="col-sm-2 col-htmlFor=m-label">
 		      Description
 		    </label>
-        <input
+        <DebounceInput
+          minLength={2}
+          debounceTimeout={350}
 		      id="description"
           value={descriptionFilter}
           type="text"
@@ -75,7 +78,9 @@ const App = () => {
 		      className="col-sm-2 col-htmlFor=m-label">
 				  Identifier
 		    </label>
-		    <input
+		    <DebounceInput
+		      minLength={1}
+		      debounceTimeout={350}
 		      id="identifier"
 		      value={identifierFilter}
 		      type="text"

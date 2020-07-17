@@ -14,10 +14,12 @@
 .control {
   margin: 0 auto;
   float: none;
+  font-family: monospace;
 }
 
 .control .control-applicability {
   text-align: right;
+  vertical-align: middle;
 }
 
 .control .control-guideline,.control-topic {
@@ -25,7 +27,7 @@
   text-transform: uppercase;
 }
 
-.control .control-description,.control-identifier {
+.control .control-applicability,.control-description,.control-identifier {
   font-family: monospace;
 }
 

@@ -16,6 +16,23 @@
   float: none;
 }
 
+.control .control-applicability {
+  text-align: right;
+}
+
+.control .control-guideline,.control-topic {
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
+.control .control-description,.control-identifier {
+  font-family: monospace;
+}
+
+.control .control-description {
+  margin-top: 2em;
+}
+
 .control p {
   white-space: pre-wrap;
 }

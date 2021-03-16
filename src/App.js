@@ -22,9 +22,9 @@ const App = () => {
   
   const ISM = ISMRaw.ISM.Control;
   const ISMControls = ISM
-    .filter((control) => control.Description.includes(descriptionFilter))
-	  .filter((control) => control.Guideline.includes(guidelineFilter))
-	  .filter((control) => control.Identifier.includes(identifierFilter))
+    .filter((control) => control.Description.toLowerCase().includes(descriptionFilter.toLowerCase()))
+	  .filter((control) => control.Guideline.toLowerCase().includes(guidelineFilter.toLowerCase()))
+	  .filter((control) => control.Identifier.toLowerCase().includes(identifierFilter.toLowerCase()))
 	  .sort((controlA, controlB) => controlA.Identifier - controlB.Identifier)
     .map((control) => <ISMControl key={control.Identifier} control={control} />);
 

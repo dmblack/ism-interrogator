@@ -41,7 +41,7 @@ const App = () => {
   return (
     <div className="App container">
       <div className="modal-header">
-        <h4 className="title">Search</h4>
+        <h4 className="title" id="search">Search</h4>
       </div>
       <div className="form-group row filters">
 		    <label

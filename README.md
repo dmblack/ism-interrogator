@@ -1,3 +1,37 @@
+# ISM-INTERROGATOR
+
+A simple tool used to search (interrogate) the ISM Controls released by 
+cyber.gov.au.
+
+The deployed version of the tool can be found here;
+
+https://dmblack.github.io/ism-interrogator/
+
+# License
+
+The ISM Controls leveraged in this project are released by cyber.gov.au;
+https://www.cyber.gov.au/acsc/copyright
+
+All other components of this project are MIT licensed.
+
+# Contributing
+
+## Opening Statement
+
+All contributions to the project are welcome, however should follow
+reasonable community guidelines.
+
+Ideally; contributions are made to independent branches, pulled into
+development, then pulled into master.
+
+Ideally; contributions consist of end-to-end tests, following exiting
+examples (which will soon be improved).
+
+Deployment will be an automated byproduct of such workflow in the near
+future.
+
+## Getting Started (Development)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -27,42 +61,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+# Attribution
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The ISM itself is released with the following considerations; © Commonwealth of Australia 2020. For More Information: https://www.cyber.gov.au/acsc/copyright

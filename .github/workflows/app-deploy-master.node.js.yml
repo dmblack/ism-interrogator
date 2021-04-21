@@ -19,15 +19,15 @@ jobs:
         node-version: [15]
 
     if: github.event.pull_request.merged == true
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: |
-      git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-      npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
-    - env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm ci
+    - run: git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+    - run: npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
     

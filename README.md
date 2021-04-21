@@ -32,6 +32,15 @@ future.
 
 ## Getting Started (Development)
 
+## Generating the latest ISM
+
+The ISM is digested from src/ISM.json, which can be generated from the
+partner project https://github.com/dmblack/ism-xml-to-ism-json
+
+Refer to that project for usage, and simply copy the artefact to ./src/.
+
+## Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

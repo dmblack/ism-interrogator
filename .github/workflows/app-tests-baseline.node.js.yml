@@ -5,6 +5,9 @@ name: application-tests-baseline
 
 on:
   push:
+    branches:
+    - '*'
+    - '!master'
 
 jobs:
   build:

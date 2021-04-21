@@ -17,14 +17,16 @@ const App = () => {
 	);
 
 	const [ identifierFilter, setIdentifierFilter ] = useState(
-		''
+    ''
 	);
   
   const ISM = ISMRaw.ISM.Control;
   const ISMControls = ISM
     .filter((control) => control.Description.toLowerCase().includes(descriptionFilter.toLowerCase()))
 	  .filter((control) => control.Guideline.toLowerCase().includes(guidelineFilter.toLowerCase()))
-	  .filter((control) => control.Identifier.toLowerCase().includes(identifierFilter.toLowerCase()))
+	  .filter((control) => (identifierFilter.split(',')[0] === '')
+      ? true
+      : identifierFilter.split(',').includes(control.Identifier))
 	  .sort((controlA, controlB) => controlA.Identifier - controlB.Identifier)
     .map((control) => <ISMControl key={control.Identifier} control={control} />);
 
@@ -88,6 +90,7 @@ const App = () => {
 		      type="text"
 		      onChange={handleIdentifierChange}
 		      className="form-control col-sm-10"
+          data-tip="Separate multiple with ','"
 		    />
 		  </div>
       <div className="modal-header">

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react';
 import './ISMControl.css';
 import ScrollableAnchor from 'react-scrollable-anchor'
@@ -37,6 +38,20 @@ function ISMControl(props) {
 	    </div>
     </div>
   );
+}
+
+ISMControl.propTypes = {
+  Description: PropTypes.string.isRequired,
+  Guideline: PropTypes.string.isRequired,
+  Identifier: PropTypes.string.isRequired,
+  OFFICIAL: PropTypes.oneOf(['', 'No', 'Yes']).isRequired,
+  PROTECTED: PropTypes.oneOf(['', 'No', 'Yes']).isRequired,
+  Revision: PropTypes.number.isRequired,
+  SECRET: PropTypes.oneOf(['', 'No', 'Yes']).isRequired,
+  Section: PropTypes.string.isRequired,
+  TOP_SECRET: PropTypes.oneOf(['', 'No', 'Yes']).isRequired,
+  Topic: PropTypes.string.isRequired,
+  Updated: PropTypes.string.isRequired
 }
 
 export default ISMControl;

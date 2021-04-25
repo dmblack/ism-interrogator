@@ -1,7 +1,6 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
-import { DebounceInput } from 'react-debounce-input';
 import './App.css';
 import Filter from './Filter.js';
 import ISMControl from './ISMControl.js';

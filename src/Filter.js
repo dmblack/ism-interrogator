@@ -1,9 +1,9 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React, { useState } from 'react';
-import { DebounceInput } from 'react-debounce-input';
+import React from 'react';
 import './Filter.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import { DebounceInput } from 'react-debounce-input';
 
 const Filter = (props) => {
   const guidelineOptions = props.guidelineOptions;

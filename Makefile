@@ -63,7 +63,8 @@ tests-single-run:
 	@$(NPM) run test -- --watchAll=false
 
 # Additional -- to ensure all arguments are parsed.
-test-coverage:
+test-coverage: tests-coverage
+tests-coverage:
 	@$(NPM) run test -- --coverage --watchAll=false
 
 version:

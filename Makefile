@@ -25,9 +25,14 @@ help: info
 	@$(ECHO) "  make info                    - display node, npm, and jq information."
 	@$(ECHO) "  make install-dependencies    - install all dependencies."
 	@$(ECHO) "  make development-experience  - start the development-experience."
-	@$(ECHO) "  make test                    - run tests."
-	@$(ECHO) "  make test-watch              - run tests - and watch for changes."
-	@$(ECHO) "  make test-coverage           - show coverage."
+	@$(ECHO) "  make test"
+	@$(ECHO) "       tests"
+	@$(ECHO) "       test-single-run"
+	@$(ECHO) "       tests-single-run        - run tests (once)."
+	@$(ECHO) "  make test-watch"
+	@$(ECHO) "       tests-watch             - run tests - and watch for changes."
+	@$(ECHO) "  make test-coverage"
+	@$(ECHO) "       tests-coverage          - run tests - and get coverage."
 	@$(ECHO) "Build/Deploy:"
 	@$(ECHO) "  make build                   - build project artifacts."
 	@$(ECHO) "  make deploy                  - build and deploy to github pages."
@@ -47,9 +52,13 @@ install-dependencies:
 serve:
 	@$(NPM) run start
 
-tests:
+test-watch: tests-watch
+tests-watch:
 	@$(NPM) run test
 
+test: test-single-run
+tests: test-single-run
+test-single-run: tests-single-run
 tests-single-run:
 	@$(NPM) run test -- --watchAll=false
 
@@ -64,7 +73,7 @@ version:
   #   Check for any conflicts with git tags, then
   #   Update the package.json version
 	@read NEW_VERSION; \
-  if [ -z "$(GIT) tag -l | grep v$$NEW_VERSION" ];\
+    if [ -z "$(GIT) tag -l | grep v$$NEW_VERSION" ];\
     then $(ECHO) "Version Conflict! Abort!";\
     exit 1;\
     else $(JQ) ".version = \"$$NEW_VERSION\"" "package.json" > up.json;\

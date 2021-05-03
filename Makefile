@@ -21,70 +21,89 @@ help: .usage
 usage: .usage
 
 .usage:
-	@$(ECHO) " Current version: $(CURRENT_VERSION)"
-	@$(ECHO)
+	@$(ECHO) "[INFO: Usage]"
 	@$(ECHO) "  List of commands:"
+	@$(ECHO) "    make help                 - display this detail."
 	@$(ECHO)
-	@$(ECHO) "Development:"
-	@$(ECHO) "  make help                    - display this detail."
-	@$(ECHO) "  make info                    - display lifecycle tooling information."
-	@$(ECHO) "  make install"
-	@$(ECHO) "       install-dependencies    - install all dependencies."
-	@$(ECHO) "  make developer-experience    - start the, run serve with watch."
-	@$(ECHO) "  make test"
-	@$(ECHO) "       test-single-run"
-	@$(ECHO) "       tests"
-	@$(ECHO) "       tests-single-run        - run tests - once."
-	@$(ECHO) "  make test-coverage"
-	@$(ECHO) "       tests-coverage          - run tests - and get coverage."
-	@$(ECHO) "  make test-watch"
-	@$(ECHO) "       tests-watch             - run tests - and watch for changes."
-	@$(ECHO) "Build/Deploy:"
-	@$(ECHO) "  make build                   - build project artifacts."
-	@$(ECHO) "  make deploy                  - build and deploy to github pages."
+	@$(ECHO) "  Development:"
+	@$(ECHO) "    make info                 - display lifecycle and tooling information."
+	@$(ECHO) "    make install-development  - install all development runtime."
+	@$(ECHO) "    make install-production   - install all production runtime."
+	@$(ECHO) "    make developer-experience - start the, run serve with watch."
+	@$(ECHO) "    make test"
+	@$(ECHO) "      test-single-run"
+	@$(ECHO) "      tests"
+	@$(ECHO) "      tests-single-run        - run tests - once."
+	@$(ECHO) "    make test-coverage"
+	@$(ECHO) "      tests-coverage          - run tests - and get coverage."
+	@$(ECHO) "    make test-watch"
+	@$(ECHO) "      tests-watch             - run tests - and watch for changes."
+	@$(ECHO) "  Build/Deploy:"
+	@$(ECHO) "    make build                - build project artifacts."
+	@$(ECHO) "    make deploy               - build and deploy to github pages."
 	@$(ECHO)
 
 info: .info-development-dependencies .info-scm-status
 .info-development-dependencies:
-	@$(ECHO) "[Development Dependencies]"	
-	@$(ECHO) jq version: `$(JQ) --version` "($(JQ))"
-	@$(ECHO) git version: `$(GIT) --version` "($(GIT))"
-	@$(ECHO) node version: `$(NODE) --version` "($(NODE))"
-	@$(ECHO) npm version: `$(NPM) --version` "($(NPM))"
+	@$(ECHO) "[INFO: Development Dependencies]"	
+	@$(ECHO) "  jq version  : `$(JQ) --version` '($(JQ))'"
+	@$(ECHO) "  git version : `$(GIT) --version` '($(GIT))'"
+	@$(ECHO) "  node version: `$(NODE) --version` '($(NODE))'"
+	@$(ECHO) "  npm version : `$(NPM) --version` '($(NPM))'"
 	@$(ECHO)
 
 .info-scm-status:
-	@$(ECHO) "[SCM Status]"
-	@$(ECHO) Last Commit Date: "$(GIT_LOG)"
-	@$(ECHO) Untracked Files: "$(GIT_STATUS)"
+	@$(ECHO) "[INFO: SCM Status]"
+	@$(ECHO) "  Project version : $(CURRENT_VERSION)"
+	@$(ECHO) "  Last Commit Date: '$(GIT_LOG)'"
+	@$(ECHO) "  Untracked Files : '$(GIT_STATUS)'"
 	@$(ECHO) 
 
-install: install-dependencies
-install-dependencies:
+install: .install-information
+.install-information:
+	@$(ECHO) "[INFO: Install]"
+	@$(ECHO) "  'install' is not a valid target."
+	@$(ECHO) "  'install-development' - for developers and development lifecycle"
+	@$(ECHO) "  'install-runtime' - for the run and production lifecycle"
+
+install-development: .install-development-dependencies
+.install-development-dependencies:
+	@$(ECHO) "[INFO: install-development]"
 	@$(NPM) install
 
+install-production: .install-production-dependencies
+.install-production-dependencies:
+	@$(ECHO) "[INFO: install-production]"
+	@$(ECHO) "  This project has no runtime requirements."
+	@$(ECHO) "  This project runtime is static html."
+
 # Rules for development
-developer-experience: serve
-serve:
+developer-experience: .developer-continuous-development
+.developer-continuous-development:
+	@$(ECHO) "[INFO: developer-experience]"
 	@$(NPM) run start
 
 test: test-single-run
 test-single-run: tests-single-run
 tests: test-single-run
 tests-single-run:
+	@$(ECHO) "[INFO: test-single-run]"
 	@$(NPM) run test -- --watchAll=false
 
 test-watch: tests-watch
 tests-watch:
+	@$(ECHO) "[INFO: test-watch]"
 	@$(NPM) run test
 
 # Additional -- to ensure all arguments are parsed.
 test-coverage: tests-coverage
 tests-coverage:
+	@$(ECHO) "[INFO: test-coverage]"
 	@$(NPM) run test -- --coverage --watchAll=false
 
 version:
-	@$(ECHO) "New version:"
+	@$(ECHO) "[INFO: version]"
+	@$(ECHO) "  Please supply a new version number (major.minor.revision): "
   # Apparently @$(READ) does not work.
   # This will ask for user input, new version, then
   #   Check for any conflicts with git tags, then
@@ -100,22 +119,15 @@ version:
 
 # Generates the .version information.
 .version:
-	@$(ECHO) "[Updating ism-interrogator version]"
+	@$(ECHO) "[INFO: version]"
   # Dumps current version into .version.
 	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
   # Echo to console
 	@$(ECHO) "Current version: `$(CAT) .version`"
 
-# Generates the .branch information.
-.branch:
-	@$(ECHO) "[Release from branch]"
-  # Returns the current selected branch.
-	@$(GIT) branch | grep '^*' | awk '{ print $$2 }' > .branch
-  # Echo to console.
-	@$(ECHO) "Current branch: `$(CAT) .branch`"
-
 # Updates the .changelog file
 .changelog:
+	@$(ECHO) "[INFO: changelog]"
   # Add a new .
 	@$(ECHO) "[Updating CHANGELOG.md $(CURRENT_VERSION) > `cat .version`]"
   # Echo to console.
@@ -126,55 +138,67 @@ version:
 	@$(CAT) .changelog_update CHANGELOG.md > tmp && mv tmp CHANGELOG.md
 
 # Used to call npm build.
-build: pre-build
+build: .pre-build
+	@$(ECHO) "[INFO: pre-build]"
 	@$(NPM) run build
 
 # Check if any modifications are not tracked by git.
 #		Will abort the release process.
-.release-check-working-tree:
+.check-working-tree:
+	@$(ECHO) "[INFO: check-working-tree]"
 	if [ ! -z "$(GIT_STATUS)" ];\
 	  then $(ECHO) "Working Tree Conflict (Not Clean)! Abort!";\
 		exit 1;\
 		fi;
 
+# Generates the .branch information.
+.branch:
+	@$(ECHO) "[INFO: branch]"
+  # Returns the current selected branch.
+	@$(GIT) branch | grep '^*' | awk '{ print $$2 }' > .branch
+  # Echo to console.
+	@$(ECHO) "Current branch: `$(CAT) .branch`"
+
 # Used to commit the release.
-.release-commit:
+.commit:
+	@$(ECHO) "[INFO: commit]"
 	@$(GIT) commit --allow-empty -m "Release v`cat .version`."
 	@$(GIT) add .
 	@$(GIT) commit --amend -m "`$(GIT) log -1 --format=%s`"
 
 # Used to add the release tag.
-.release-tag:
+.tag:
+	@$(ECHO) "[INFO: tag]"
 	@$(GIT) tag "v`cat .version`"
 
 # Used to publish a built artefact.
-publish-version: release-commit release-tag
-	@$(ECHO) "[Publishing]"
+publish-version: .commit .tag
+	@$(ECHO) "[INFO: publish-version]"
 	@$(GIT) push $(REMOTE) "`cat .branch`" "v`cat .version`"
 	@$(NPM) publish
 
-# pre-build
+# .pre-build
 #		Install dependencies,
 #		run tests - single.
 #		clean
-pre-build: install-dependencies tests-single-run clean
+..pre-build: install-dependencies tests-single-run clean
 
 # pre-release
 #		Install dependencies
 #		run tests - single.
 #		clean
 #		.branch - 
-pre-release: install-dependencies tests-single-run clean .branch .version changelog
+.pre-release: install-dependencies tests-single-run clean .branch .version .changelog
 
-release: check-working-tree pre-publish pre-build publish-version publish-finished
+release: check-working-tree .pre-publish ..pre-build publish-version .post-publish
 
 # Rules for clean up
-publish-finished: clean
+.post-publish: clean
 
-clean-all:
+.clean-all:
 	@$(RM) -rf .version .branch build/*
 
-clean-build:
+.clean-build:
 	@$(RM) -rf build/*
 
-clean: clean-all
+clean: .clean-all

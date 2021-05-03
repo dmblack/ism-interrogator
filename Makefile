@@ -5,6 +5,7 @@ GIT=$(shell which git)
 JQ=$(shell which jq)
 NODE=$(shell which node)
 NPM=$(shell which npm)
+PRINTF=$(shell which printf)
 PYTHON3=$(shell which python3)
 READ=$(shell which read)
 RM=$(shell which rm)
@@ -13,6 +14,7 @@ SH=$(shell which sh)
 # VARIABLES
 COVERAGE?=true
 CURRENT_VERSION:=$(shell $(JQ) ".version" package.json)
+PROPOSED_VERSION:=$(shell $(CAT) .version)
 GIT_STATUS:=$(shell $(GIT) status -s)
 GIT_LOG:=$(shell $(GIT) log -1 --format=%ad)
 REMOTE="git@github.com:dmblack/ism-interrogator"
@@ -108,14 +110,17 @@ version:
   # This will ask for user input, new version, then
   #   Check for any conflicts with git tags, then
   #   Update the package.json version
-	@read NEW_VERSION;\
-    if [ -z "$(GIT) tag -l | grep v$$NEW_VERSION" ];\
-    then $(ECHO) "Version Conflict! Abort!";\
-    exit 1;\
-    else $(JQ) ".version = \"$$NEW_VERSION\"" "package.json" > up.json;\
-    $(CAT) up.json > "package.json";\
-    $(RM) up.json;\
-    fi; 
+  # By starting with @ on this line, and \ for each following, we avoid
+  #		unnecessary verbosity.
+	@read NEW_VERSION; \
+	if [ -z "$(GIT) tag -l | grep v$$NEW_VERSION" ]; then \
+    $(ECHO) "Version Conflict! Abort!"; \
+    exit 1; \
+    else $(JQ) ".version = \"$$NEW_VERSION\"" "package.json" > up.json; \
+    $(ECHO) $$NEW_VERSION > .version; \
+    $(CAT) up.json > "package.json"; \
+    $(RM) up.json; \
+    fi
 
 # Generates the .version information.
 .version:
@@ -125,17 +130,32 @@ version:
   # Echo to console
 	@$(ECHO) "Current version: `$(CAT) .version`"
 
-# Updates the .changelog file
-.changelog:
+# Updates the .changelog file, and then the CHANGELOG.md
+.changelog: .clean-changelog
 	@$(ECHO) "[INFO: changelog]"
-  # Add a new .
-	@$(ECHO) "[Updating CHANGELOG.md $(CURRENT_VERSION) > `cat .version`]"
-  # Echo to console.
-	@$(GIT) log -1 --format=%ad
-  # Echo to console.
-	@$(PYTHON) ./scripts/changelog.py v$(CURRENT_VERSION) v`cat .version` > .changelog_update
-  # Echo to console.
-	@$(CAT) .changelog_update CHANGELOG.md > tmp && mv tmp CHANGELOG.md
+  # Note that the $CURRENT_VERSION variable includes quotes.
+	if [ $(CURRENT_VERSION) = "$(PROPOSED_VERSION)" ];\
+		then $(ECHO) "  Version Conflict! Abort!";\
+		$(ECHO) "  It appears you have not incremented your version number.";\
+		$(ECHO) "  Consider running make version to do so.";\
+		exit 1;\
+		fi;
+  # Pushing current version, and git log. (Title)
+	@$(ECHO) "  Updating CHANGELOG.md $(CURRENT_VERSION) to $(PROPOSED_VERSION)"
+	@$(ECHO) "v$(PROPOSED_VERSION) - $(GIT_LOG)" > .changelog
+	@$(ECHO) "--------------------------------------" >> .changelog
+  # Generate the the git logs to date 
+  # We use printf here to generate consistent changelog identifiers.
+  # We use awk to pull out the abbreviated commit id, and
+  #		We then generate a markdown suitable link for github usage.
+  #	  We then insert a ' - ' at the start of each line for a list.
+	@$(PRINTF) "`git log --format='%h %s'`" | awk '{printf "["$$1"](../../"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
+  # Cat both out, with the .changelog (latest) at start.
+  # Then move into our new CHANGELOG.md
+	@$(CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md
+
+.clean-changelog:
+	@$(ECHO) "" > .changelog
 
 # Used to call npm build.
 build: .pre-build

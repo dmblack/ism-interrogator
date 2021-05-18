@@ -194,11 +194,10 @@ build: .pre-build
 	@$(ECHO) "[INFO: tag]"
 	@$(GIT) tag "v`cat .version`"
 
-# Used to publish a built artefact.
-publish: .version .commit .tag
-	@$(ECHO) "[INFO: publish-version]"
+# Used to release a version.
+.release: .version .commit .tag
+	@$(ECHO) "[INFO: release-version]"
 	@$(GIT) push $(REMOTE) "`cat .branch`" "v`cat .version`"
-	@$(NPM) publish
 
 # .pre-build
 #		Install dependencies,
@@ -207,16 +206,15 @@ publish: .version .commit .tag
 .pre-build: install-dependencies tests-single-run clean
 
 # pre-release
-#		Install dependencies
 #		run tests - single.
 #		clean
 #		.branch - 
 .pre-release: tests-single-run clean .branch .version .changelog
 
-release: .check-working-tree .pre-release .publish .post-publish
+release: .check-working-tree .pre-release .release .post-release
 
 # Rules for clean up
-.post-publish: clean
+.post-release: clean
 
 .clean-all:
 	@$(RM) -rf .version .branch build/*

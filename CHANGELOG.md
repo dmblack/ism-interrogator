@@ -1,10 +1,11 @@
-v - Tue May 18 21:03:34 2021 +1000
+v0.1.2 - Tue May 18 21:03:34 2021 +1000
 --------------------------------------
  - [0f5e07e](../../commit/0f5e07e) Updated .gitignore Removed .branch, .version Updated Makefile Fixed; Version handling in changelog generation. Fixed version handling in package.json.
  - [f8d5faa](../../commit/f8d5faa) Updated package.json Fixed broken version tag. Removed 'private' flag for repo.
  - [4f6e070](../../commit/4f6e070) Updated Makefile Fixed links in generation of changelog to point to correct URL.
  - [271ef5b](../../commit/271ef5b) Updated CHANGELOG.md Hopefully fixed links to commits.
-v - Tue May 18 20:35:02 2021 +1000
+
+v0.1.1 - Tue May 18 20:35:02 2021 +1000
 --------------------------------------
  - [f0b5d5e](../../commit/f0b5d5e) Updated Makefile Cleaned language around the 'release' lifecycle. (instead of 'publish')
  - [055e135](../../commit/055e135) Added CHANGELOG.md Used for storage of changes to app.

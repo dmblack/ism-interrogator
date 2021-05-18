@@ -152,6 +152,7 @@ tests-coverage:
   # Cat both out, with the .changelog (latest) at start.
   # Then move into our new CHANGELOG.md
 	@$(CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md
+	@$(RM) .changelog
 
 .clean-changelog:
 	@$(ECHO) "" > .changelog
@@ -212,7 +213,7 @@ publish: .version .commit .tag
 #		.branch - 
 .pre-release: install-dependencies tests-single-run clean .branch .version .changelog
 
-release: check-working-tree .pre-publish ..pre-build publish-version .post-publish
+release: .check-working-tree .pre-release .publish .post-publish
 
 # Rules for clean up
 .post-publish: clean

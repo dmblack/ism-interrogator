@@ -11,6 +11,10 @@
 # production
 /build
 
+# makefile generated content
+.branch
+.version
+
 # misc
 .DS_Store
 .env.local

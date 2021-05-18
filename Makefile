@@ -133,7 +133,7 @@ tests-coverage:
 .changelog: .clean-changelog
 	@$(ECHO) "[INFO: changelog]"
   # Note that the $CURRENT_VERSION variable includes quotes.
-	if [ $(CURRENT_VERSION) = "$(PROPOSED_VERSION)" ];\
+	if [ "$(CURRENT_VERSION)" = "$(PROPOSED_VERSION)" ];\
 		then $(ECHO) "  Version Conflict! Abort!";\
 		$(ECHO) "  It appears you have not incremented your version number.";\
 		$(ECHO) "  Consider running make version to do so.";\
@@ -148,7 +148,7 @@ tests-coverage:
   # We use awk to pull out the abbreviated commit id, and
   #		We then generate a markdown suitable link for github usage.
   #	  We then insert a ' - ' at the start of each line for a list.
-	@$(PRINTF) "`git log --format='%h %s'`" | awk '{printf "["$$1"](../../commit/"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
+	@$(PRINTF) "`git log --format='%h %s' v$(CURRENT_VERSION)..HEAD`" | awk '{printf "["$$1"](../../commit/"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
   # Cat both out, with the .changelog (latest) at start.
   # Then move into our new CHANGELOG.md
 	@$(CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md
@@ -182,7 +182,7 @@ build: .pre-build
 # Used to commit the release.
 .commit:
 	@$(ECHO) "[INFO: commit]"
-	@$(JQ) ".version = \"$$PROPOSED_VERSION\"" "package.json" > up.json;
+	@$(JQ) ".version = \"$(PROPOSED_VERSION)\"" "package.json" > up.json;
 	@$(CAT) up.json > "package.json";
 	@$(RM) up.json;
 	@$(GIT) commit --allow-empty -m "Release v`cat .version`."

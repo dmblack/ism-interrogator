@@ -211,7 +211,7 @@ publish: .version .commit .tag
 #		run tests - single.
 #		clean
 #		.branch - 
-.pre-release: install-dependencies tests-single-run clean .branch .version .changelog
+.pre-release: tests-single-run clean .branch .version .changelog
 
 release: .check-working-tree .pre-release .publish .post-publish
 

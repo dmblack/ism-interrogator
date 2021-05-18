@@ -1,7 +1,6 @@
 {
   "name": "ism-interrogator",
-  "version": "",
-  "private": true,
+  "version": "0.1.1",
   "homepage": "http://dmblack.github.io/ism-interrogator",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

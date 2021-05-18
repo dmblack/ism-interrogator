@@ -148,7 +148,7 @@ tests-coverage:
   # We use awk to pull out the abbreviated commit id, and
   #		We then generate a markdown suitable link for github usage.
   #	  We then insert a ' - ' at the start of each line for a list.
-	@$(PRINTF) "`git log --format='%h %s'`" | awk '{printf "["$$1"](../../"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
+	@$(PRINTF) "`git log --format='%h %s'`" | awk '{printf "["$$1"](../../commit/"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
   # Cat both out, with the .changelog (latest) at start.
   # Then move into our new CHANGELOG.md
 	@$(CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md

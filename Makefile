@@ -103,8 +103,9 @@ tests-coverage:
 	@$(ECHO) "[INFO: test-coverage]"
 	@$(NPM) run test -- --coverage --watchAll=false
 
-version:
+.version:
 	@$(ECHO) "[INFO: version]"
+	@$(ECHO) "  Current Version: $(CURRENT_VERSION)"
 	@$(ECHO) "  Please supply a new version number (major.minor.revision): "
   # Apparently @$(READ) does not work.
   # This will ask for user input, new version, then
@@ -116,19 +117,17 @@ version:
 	if [ -z "$(GIT) tag -l | grep v$$NEW_VERSION" ]; then \
     $(ECHO) "Version Conflict! Abort!"; \
     exit 1; \
-    else $(JQ) ".version = \"$$NEW_VERSION\"" "package.json" > up.json; \
+    else \
     $(ECHO) $$NEW_VERSION > .version; \
-    $(CAT) up.json > "package.json"; \
-    $(RM) up.json; \
     fi
 
-# Generates the .version information.
-.version:
-	@$(ECHO) "[INFO: version]"
-  # Dumps current version into .version.
-	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
-  # Echo to console
-	@$(ECHO) "Current version: `$(CAT) .version`"
+# # Generates the .version information.
+# .version:
+# 	@$(ECHO) "[INFO: version]"
+#   # Dumps current version into .version.
+# 	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
+#   # Echo to console
+# 	@$(ECHO) "Current version: `$(CAT) .version`"
 
 # Updates the .changelog file, and then the CHANGELOG.md
 .changelog: .clean-changelog
@@ -182,6 +181,9 @@ build: .pre-build
 # Used to commit the release.
 .commit:
 	@$(ECHO) "[INFO: commit]"
+	@$(JQ) ".version = \"$$PROPOSED_VERSION\"" "package.json" > up.json;
+	@$(CAT) up.json > "package.json";
+	@$(RM) up.json;
 	@$(GIT) commit --allow-empty -m "Release v`cat .version`."
 	@$(GIT) add .
 	@$(GIT) commit --amend -m "`$(GIT) log -1 --format=%s`"
@@ -192,7 +194,7 @@ build: .pre-build
 	@$(GIT) tag "v`cat .version`"
 
 # Used to publish a built artefact.
-publish-version: .commit .tag
+publish: .version .commit .tag
 	@$(ECHO) "[INFO: publish-version]"
 	@$(GIT) push $(REMOTE) "`cat .branch`" "v`cat .version`"
 	@$(NPM) publish
@@ -201,7 +203,7 @@ publish-version: .commit .tag
 #		Install dependencies,
 #		run tests - single.
 #		clean
-..pre-build: install-dependencies tests-single-run clean
+.pre-build: install-dependencies tests-single-run clean
 
 # pre-release
 #		Install dependencies

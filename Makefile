@@ -114,12 +114,16 @@ tests-coverage:
   # By starting with @ on this line, and \ for each following, we avoid
   #		unnecessary verbosity.
 	@read NEW_VERSION; \
-	if [ -z "$(GIT) tag -l | grep v$$NEW_VERSION" ]; then \
+	if [ -z `$(GIT) tag -l | grep v$$NEW_VERSION` ]; then \
+    $(ECHO) $$NEW_VERSION > .version; \
+    else \
     $(ECHO) "Version Conflict! Abort!"; \
     exit 1; \
-    else \
-    $(ECHO) $$NEW_VERSION > .version; \
     fi
+
+# Cleans up our .version files.
+.post-version:
+	@$(RM) .version
 
 # # Generates the .version information.
 # .version:
@@ -149,6 +153,8 @@ tests-coverage:
   #		We then generate a markdown suitable link for github usage.
   #	  We then insert a ' - ' at the start of each line for a list.
 	@$(PRINTF) "`git log --format='%h %s' v$(CURRENT_VERSION)..HEAD`" | awk '{printf "["$$1"](../../commit/"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
+  # We then add a new line at the end of this file, to avoid it impacting formatting of previous CHANGELOG.md inforamtion.
+	@$(ECHO) "" >> .changelog
   # Cat both out, with the .changelog (latest) at start.
   # Then move into our new CHANGELOG.md
 	@$(CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md
@@ -178,6 +184,10 @@ build: .pre-build
 	@$(GIT) branch | grep '^*' | awk '{ print $$2 }' > .branch
   # Echo to console.
 	@$(ECHO) "Current branch: `$(CAT) .branch`"
+
+# Cleans up the .branch information.
+.post-branch:
+	@$(RM) .branch
 
 # Used to commit the release.
 .commit:
@@ -214,7 +224,7 @@ build: .pre-build
 release: .check-working-tree .pre-release .release .post-release
 
 # Rules for clean up
-.post-release: clean
+.post-release: clean .post-branch .post-version
 
 .clean-all:
 	@$(RM) -rf .version .branch build/*

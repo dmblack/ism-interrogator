@@ -40,3 +40,20 @@
     transform: rotate(360deg);
   }
 }
+
+.information {
+  z-index: 2;
+  display: none;
+  position: fixed;
+  right: 1em;
+  top: 1em;
+  font-size: calc(10px + 2vmin);
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+@media screen and (min-width: 720px) {
+  .information {
+    display: block;
+  }
+}

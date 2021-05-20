@@ -42,6 +42,9 @@ const App = () => {
 
   return (
     <div className="App container">
+      <div className="information">
+        <a href="https://github.com/dmblack/ism-interrogator/blob/master/CHANGELOG.md" rel="noreferrer" target="_blank"><h4 className="changelog" id="changelog">changelog</h4></a>
+      </div>
       <div className="modal-header">
         <h4 className="title" id="search">Search</h4>
       </div>

@@ -1,7 +1,9 @@
 {
   "name": "ism-interrogator",
   "version": "0.1.3",
+  "coverage": false,
   "homepage": "http://dmblack.github.io/ism-interrogator",
+  "remote": "git@github.com:dmblack/ism-interrogator",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

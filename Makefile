@@ -1,221 +1,221 @@
-# Development Dependencies
-CAT=$(shell which cat)
-ECHO=$(shell which echo)
-GIT=$(shell which git)
-JQ=$(shell which jq)
-NODE=$(shell which node)
-NPM=$(shell which npm)
-PRINTF=$(shell which printf)
-PYTHON3=$(shell which python3)
-READ=$(shell which read)
-RM=$(shell which rm)
-SH=$(shell which sh)
+#	Development Dependencies
+COMMAND_AWK=$(shell which awk)
+COMMAND_CAT=$(shell which cat)
+COMMAND_ECHO=$(shell which echo)
+COMMAND_GIT=$(shell which git)
+COMMAND_GREP=$(shell which grep)
+COMMAND_JQ=$(shell which jq)
+COMMAND_NODE=$(shell which node)
+COMMAND_NPM=$(shell which npm)
+COMMAND_PRINTF=$(shell which printf)
+COMMAND_RM=$(shell which rm)
+COMMAND_SED=$(shell which sed)
 
-# VARIABLES
-COVERAGE?=true
-CURRENT_VERSION:=$(shell $(JQ) ".version" package.json)
-PROPOSED_VERSION:=$(shell $(CAT) .version)
-GIT_STATUS:=$(shell $(GIT) status -s)
-GIT_LOG:=$(shell $(GIT) log -1 --format=%ad)
-REMOTE="git@github.com:dmblack/ism-interrogator"
+#	VARIABLES
+VARIABLE_COVERAGE?=$(shell $(COMMAND_JQ) --raw-output ".coverage" package.json)
+VARIABLE_CURRENT_VERSION:=$(shell $(COMMAND_JQ) --raw-output ".version" package.json)
+VARIABLE_GIT_LOG:=$(shell $(COMMAND_GIT) log --max-count=1 --format=%ad)
+VARIABLE_GIT_STATUS:=$(shell $(COMMAND_GIT) status --short)
+VARIABLE_PROPOSED_VERSION?=$(shell $(COMMAND_CAT) .version)
+VARIABLE_REMOTE=$(shell $(COMMAND_JQ) --raw-output ".remote" package.json)
 
+#	Entry, and usage.
 help: .usage
 usage: .usage
 
+#	Usage Instructions
 .usage:
-	@$(ECHO) "[INFO: Usage]"
-	@$(ECHO) "  List of commands:"
-	@$(ECHO) "    make help                 - display this detail."
-	@$(ECHO)
-	@$(ECHO) "  Development:"
-	@$(ECHO) "    make info                 - display lifecycle and tooling information."
-	@$(ECHO) "    make install-development  - install all development runtime."
-	@$(ECHO) "    make install-production   - install all production runtime."
-	@$(ECHO) "    make developer-experience - start the, run serve with watch."
-	@$(ECHO) "    make test"
-	@$(ECHO) "      test-single-run"
-	@$(ECHO) "      tests"
-	@$(ECHO) "      tests-single-run        - run tests - once."
-	@$(ECHO) "    make test-coverage"
-	@$(ECHO) "      tests-coverage          - run tests - and get coverage."
-	@$(ECHO) "    make test-watch"
-	@$(ECHO) "      tests-watch             - run tests - and watch for changes."
-	@$(ECHO) "  Build/Deploy:"
-	@$(ECHO) "    make build                - build project artifacts."
-	@$(ECHO) "    make deploy               - build and deploy to github pages."
-	@$(ECHO)
+	@$(COMMAND_ECHO) "[INFO: Usage]"
+	@$(COMMAND_ECHO) "	List of commands:"
+	@$(COMMAND_ECHO) "		make help                 - display this detail."
+	@$(COMMAND_ECHO)
+	@$(COMMAND_ECHO) "	Development:"
+	@$(COMMAND_ECHO) "		make info                 - display lifecycle and tooling information."
+	@$(COMMAND_ECHO) "		make install-development  - install all development runtime."
+	@$(COMMAND_ECHO) "		make install-production   - install all production runtime."
+	@$(COMMAND_ECHO) "		make developer-experience - start the, run serve with watch."
+	@$(COMMAND_ECHO) "		make test"
+	@$(COMMAND_ECHO) "			test-single-run"
+	@$(COMMAND_ECHO) "			tests"
+	@$(COMMAND_ECHO) "			tests-single-run        - run tests - once."
+	@$(COMMAND_ECHO) "		make test-coverage"
+	@$(COMMAND_ECHO) "			tests-coverage          - run tests - and get coverage."
+	@$(COMMAND_ECHO) "		make test-watch"
+	@$(COMMAND_ECHO) "			tests-watch             - run tests - and watch for changes."
+	@$(COMMAND_ECHO) "	Build/Deploy:"
+	@$(COMMAND_ECHO) "		make build                - build project artifacts."
+	@$(COMMAND_ECHO) "		make deploy               - build and deploy to github pages."
+	@$(COMMAND_ECHO)
 
-info: .info-development-dependencies .info-scm-status
+#	Presents general info detail.
+info: .info-development-dependencies .scm-status
 .info-development-dependencies:
-	@$(ECHO) "[INFO: Development Dependencies]"	
-	@$(ECHO) "  jq version  : `$(JQ) --version` '($(JQ))'"
-	@$(ECHO) "  git version : `$(GIT) --version` '($(GIT))'"
-	@$(ECHO) "  node version: `$(NODE) --version` '($(NODE))'"
-	@$(ECHO) "  npm version : `$(NPM) --version` '($(NPM))'"
-	@$(ECHO)
+	@$(COMMAND_ECHO) "[INFO: Development Dependencies]"	
+	@$(COMMAND_ECHO) "	jq version  : `$(COMMAND_JQ) --version` '($(COMMAND_JQ))'"
+	@$(COMMAND_ECHO) "	git version : `$(COMMAND_GIT) --version` '($(COMMAND_GIT))'"
+	@$(COMMAND_ECHO) "	node version: `$(COMMAND_NODE) --version` '($(COMMAND_NODE))'"
+	@$(COMMAND_ECHO) "	npm version : `$(COMMAND_NPM) --version` '($(COMMAND_NPM))'"
+	@$(COMMAND_ECHO)
 
-.info-scm-status:
-	@$(ECHO) "[INFO: SCM Status]"
-	@$(ECHO) "  Project version : $(CURRENT_VERSION)"
-	@$(ECHO) "  Last Commit Date: '$(GIT_LOG)'"
-	@$(ECHO) "  Untracked Files : '$(GIT_STATUS)'"
-	@$(ECHO) 
+.scm-status:
+	@$(COMMAND_ECHO) "[INFO: SCM Status]"
+	@$(COMMAND_ECHO) "	Project version : $(VARIABLE_CURRENT_VERSION)"
+	@$(COMMAND_ECHO) "	Last Commit Date: '$(VARIABLE_GIT_LOG)'"
+	@$(COMMAND_ECHO) "	Untracked Files : '$(VARIABLE_GIT_STATUS)'"
+	@$(COMMAND_ECHO) 
 
 install: .install-information
 .install-information:
-	@$(ECHO) "[INFO: Install]"
-	@$(ECHO) "  'install' is not a valid target."
-	@$(ECHO) "  'install-development' - for developers and development lifecycle"
-	@$(ECHO) "  'install-runtime' - for the run and production lifecycle"
+	@$(COMMAND_ECHO) "[INFO: Install]"
+	@$(COMMAND_ECHO) "	'install' is not a valid target."
+	@$(COMMAND_ECHO) "	'install-development' - for developers and development lifecycle"
+	@$(COMMAND_ECHO) "	'install-runtime' - for the run and production lifecycle"
 
 install-development: .install-development-dependencies
 .install-development-dependencies:
-	@$(ECHO) "[INFO: install-development]"
-	@$(NPM) install
+	@$(COMMAND_ECHO) "[INFO: install-development]"
+	@$(COMMAND_NPM) install
 
 install-production: .install-production-dependencies
 .install-production-dependencies:
-	@$(ECHO) "[INFO: install-production]"
-	@$(ECHO) "  This project has no runtime requirements."
-	@$(ECHO) "  This project runtime is static html."
+	@$(COMMAND_ECHO) "[INFO: install-production]"
+	@$(COMMAND_ECHO) "	This project has no runtime requirements."
+	@$(COMMAND_ECHO) "	This project runtime is static html."
 
-# Rules for development
+#	Rules for development
 developer-experience: .developer-continuous-development
 .developer-continuous-development:
-	@$(ECHO) "[INFO: developer-experience]"
-	@$(NPM) run start
+	@$(COMMAND_ECHO) "[INFO: developer-experience]"
+	@$(COMMAND_NPM) run start
 
 test: test-single-run
 test-single-run: tests-single-run
 tests: test-single-run
 tests-single-run:
-	@$(ECHO) "[INFO: test-single-run]"
-	@$(NPM) run test -- --watchAll=false
+	@$(COMMAND_ECHO) "[INFO: test-single-run]"
+	@$(COMMAND_NPM) run test -- --watchAll=false
 
 test-watch: tests-watch
 tests-watch:
-	@$(ECHO) "[INFO: test-watch]"
-	@$(NPM) run test
+	@$(COMMAND_ECHO) "[INFO: test-watch]"
+	@$(COMMAND_NPM) run test
 
-# Additional -- to ensure all arguments are parsed.
+#	Additional -- to ensure all arguments are parsed.
 test-coverage: tests-coverage
 tests-coverage:
-	@$(ECHO) "[INFO: test-coverage]"
-	@$(NPM) run test -- --coverage --watchAll=false
+	@$(COMMAND_ECHO) "[INFO: test-coverage]"
+	@$(COMMAND_NPM) run test -- --coverage --watchAll=false
 
+#	.version 
+#		Presents current version, and asks for a new.
+#		If the new version does not match the old
+#		place the user input .version file.
+#		else; exit with a version conflict.
 .version:
-	@$(ECHO) "[INFO: version]"
-	@$(ECHO) "  Current Version: $(CURRENT_VERSION)"
-	@$(ECHO) "  Please supply a new version number (major.minor.revision): "
-  # Apparently @$(READ) does not work.
-  # This will ask for user input, new version, then
-  #   Check for any conflicts with git tags, then
-  #   Update the package.json version
-  # By starting with @ on this line, and \ for each following, we avoid
-  #		unnecessary verbosity.
-	@read NEW_VERSION; \
-	if [ -z `$(GIT) tag -l | grep v$$NEW_VERSION` ]; then \
-    $(ECHO) $$NEW_VERSION > .version; \
+	@$(COMMAND_ECHO) "[INFO: version]"
+	@$(COMMAND_ECHO) "	Current Version: $(VARIABLE_CURRENT_VERSION)"
+	@$(COMMAND_ECHO) "	Please supply a new version number (major.minor.revision): "
+#	Apparently @$(READ) does not work.
+#	This will ask for user input, new version, then
+#		Check for any conflicts with git tags, then
+#		Update the package.json version
+#	By starting with @ on this line, and \ for each following, we avoid
+#		unnecessary verbosity.
+	@read VARIABLE_NEW_VERSION; \
+	if [ -z `$(COMMAND_GIT) tag --list | $(COMMAND_GREP) v$$VARIABLE_NEW_VERSION` ]; then \
+   		$(COMMAND_ECHO) $$VARIABLE_NEW_VERSION > .version; \
     else \
-    $(ECHO) "Version Conflict! Abort!"; \
-    exit 1; \
+		$(COMMAND_ECHO) "Version Conflict! Abort!"; \
+		exit 1; \
     fi
 
-# Cleans up our .version files.
+#	Cleans up our .version files.
 .post-version:
-	@$(RM) .version
+	@$(COMMAND_RM) .version
 
-# # Generates the .version information.
-# .version:
-# 	@$(ECHO) "[INFO: version]"
-#   # Dumps current version into .version.
-# 	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
-#   # Echo to console
-# 	@$(ECHO) "Current version: `$(CAT) .version`"
-
-# Updates the .changelog file, and then the CHANGELOG.md
+#	Updates the .changelog file, and then the CHANGELOG.md
 .changelog: .clean-changelog
-	@$(ECHO) "[INFO: changelog]"
-  # Note that the $CURRENT_VERSION variable includes quotes.
-	if [ "$(CURRENT_VERSION)" = "$(PROPOSED_VERSION)" ];\
-		then $(ECHO) "  Version Conflict! Abort!";\
-		$(ECHO) "  It appears you have not incremented your version number.";\
-		$(ECHO) "  Consider running make version to do so.";\
+	@$(COMMAND_ECHO) "[INFO: changelog]"
+#	Note that the $VARIABLE_CURRENT_VERSION variable includes quotes.
+	if [ "$(VARIABLE_CURRENT_VERSION)" = "$(VARIABLE_PROPOSED_VERSION)" ]; then\
+		$(COMMAND_ECHO) "	Version Conflict! Abort!";\
+		$(COMMAND_ECHO) "	It appears you have not incremented your version number.";\
+		$(COMMAND_ECHO) "	Consider running make version to do so.";\
 		exit 1;\
-		fi;
-  # Pushing current version, and git log. (Title)
-	@$(ECHO) "  Updating CHANGELOG.md $(CURRENT_VERSION) to $(PROPOSED_VERSION)"
-	@$(ECHO) "v$(PROPOSED_VERSION) - $(GIT_LOG)" > .changelog
-	@$(ECHO) "--------------------------------------" >> .changelog
-  # Generate the the git logs to date 
-  # We use printf here to generate consistent changelog identifiers.
-  # We use awk to pull out the abbreviated commit id, and
-  #		We then generate a markdown suitable link for github usage.
-  #	  We then insert a ' - ' at the start of each line for a list.
-	@$(PRINTF) "`git log --format='%h %s' v$(CURRENT_VERSION)..HEAD`" | awk '{printf "["$$1"](../../commit/"$$1")"; $$1=""; print $$0}' | sed -e 's/^/ - /' >> .changelog
-  # We then add a new line at the end of this file, to avoid it impacting formatting of previous CHANGELOG.md inforamtion.
-	@$(ECHO) "" >> .changelog
-  # Cat both out, with the .changelog (latest) at start.
-  # Then move into our new CHANGELOG.md
-	@$(CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md
-	@$(RM) .changelog
+	fi;
+#	Pushing current version, and git log. (Title)
+	@$(COMMAND_ECHO) "	Updating CHANGELOG.md $(VARIABLE_CURRENT_VERSION) to $(VARIABLE_PROPOSED_VERSION)"
+	@$(COMMAND_ECHO) "v$(VARIABLE_PROPOSED_VERSION) - $(VARIABLE_GIT_LOG)" > .changelog
+	@$(COMMAND_ECHO) "--------------------------------------" >> .changelog
+#	Generate the the git logs to date 
+#	We use printf here to generate consistent changelog identifiers.
+#	We use $(COMMAND_AWK) to pull out the abbreviated commit id, and
+#		We then generate a markdown suitable link for github usage.
+#		We then insert a ' - ' at the start of each line for a list.
+	@$(COMMAND_PRINTF) "`git log --format='%h %s' v$(VARIABLE_CURRENT_VERSION)..HEAD`" | $(COMMAND_AWK) '{printf "["$$1"](../../commit/"$$1")"; $$1=""; print $$0}' | $(COMMAND_SED) --expression 's/^/ - /' >> .changelog
+#	We then add a new line at the end of this file, to avoid it impacting formatting of previous CHANGELOG.md inforamtion.
+	@$(COMMAND_ECHO) "" >> .changelog
+#	Cat both out, with the .changelog (latest) at start.
+#	Then move into our new CHANGELOG.md
+	@$(COMMAND_CAT) .changelog CHANGELOG.md > tmp && mv tmp CHANGELOG.md
+	@$(COMMAND_RM) .changelog
 
 .clean-changelog:
-	@$(ECHO) "" > .changelog
+	@$(COMMAND_ECHO) "" > .changelog
 
-# Used to call npm build.
+#	Used to call npm build.
 build: .pre-build
-	@$(ECHO) "[INFO: pre-build]"
-	@$(NPM) run build
+	@$(COMMAND_ECHO) "[INFO: pre-build]"
+	@$(COMMAND_NPM) run build
 
-# Check if any modifications are not tracked by git.
+#	Check if any modifications are not tracked by git.
 #		Will abort the release process.
 .check-working-tree:
-	@$(ECHO) "[INFO: check-working-tree]"
-	if [ ! -z "$(GIT_STATUS)" ];\
-	  then $(ECHO) "Working Tree Conflict (Not Clean)! Abort!";\
+	@$(COMMAND_ECHO) "[INFO: check-working-tree]"
+	if [ ! -z "$(VARIABLE_GIT_STATUS)" ]; then\
+		$(COMMAND_ECHO) "Working Tree Conflict (Not Clean)! Abort!";\
 		exit 1;\
-		fi;
+	fi;
 
-# Generates the .branch information.
+#	Generates the .branch information.
 .branch:
-	@$(ECHO) "[INFO: branch]"
-  # Returns the current selected branch.
-	@$(GIT) branch | grep '^*' | awk '{ print $$2 }' > .branch
-  # Echo to console.
-	@$(ECHO) "Current branch: `$(CAT) .branch`"
+	@$(COMMAND_ECHO) "[INFO: branch]"
+#	Returns the current selected branch.
+	@$(COMMAND_GIT) branch | $(COMMAND_GREP) '^*' | $(COMMAND_AWK) '{ print $$2 }' > .branch
+#	Echo to console.
+	@$(COMMAND_ECHO) "Current branch: `$(COMMAND_CAT) .branch`"
 
-# Cleans up the .branch information.
+#	Cleans up the .branch information.
 .post-branch:
-	@$(RM) .branch
+	@$(COMMAND_RM) .branch
 
-# Used to commit the release.
+#	Used to commit the release.
 .commit:
-	@$(ECHO) "[INFO: commit]"
-	@$(JQ) ".version = \"$(PROPOSED_VERSION)\"" "package.json" > up.json;
-	@$(CAT) up.json > "package.json";
-	@$(RM) up.json;
-	@$(GIT) commit --allow-empty -m "Release v`cat .version`."
-	@$(GIT) add .
-	@$(GIT) commit --amend -m "`$(GIT) log -1 --format=%s`"
+	@$(COMMAND_ECHO) "[INFO: commit]"
+	@$(COMMAND_JQ) ".version = \"$(VARIABLE_PROPOSED_VERSION)\"" "package.json" > up.json;
+	@$(COMMAND_CAT) up.json > "package.json";
+	@$(COMMAND_RM) up.json;
+	@$(COMMAND_GIT) commit --allow-empty --message "Release v`cat .version`."
+	@$(COMMAND_GIT) add .
+	@$(COMMAND_GIT) commit --amend --message "`$(COMMAND_GIT) log --format=%s --max-count=1`"
 
-# Used to add the release tag.
+#	Used to add the release tag.
 .tag:
-	@$(ECHO) "[INFO: tag]"
-	@$(GIT) tag "v`cat .version`"
+	@$(COMMAND_ECHO) "[INFO: tag]"
+	@$(COMMAND_GIT) tag "v`cat .version`"
 
-# Used to release a version.
+#	Used to release a version.
 .release: .version .commit .tag
-	@$(ECHO) "[INFO: release-version]"
-	@$(GIT) push $(REMOTE) "`cat .branch`" "v`cat .version`"
+	@$(COMMAND_ECHO) "[INFO: release-version]"
+	@$(COMMAND_GIT) push $(VARIABLE_REMOTE) "`cat .branch`" "v`cat .version`"
 
-# .pre-build
+#	.pre-build
 #		Install dependencies,
 #		run tests - single.
 #		clean
 .pre-build: install-dependencies tests-single-run clean
 
-# pre-release
+#	pre-release
 #		run tests - single.
 #		clean
 #		.branch - 
@@ -223,13 +223,13 @@ build: .pre-build
 
 release: .check-working-tree .pre-release .release .post-release
 
-# Rules for clean up
+#	Rules for clean up
 .post-release: clean .post-branch .post-version
 
 .clean-all:
-	@$(RM) -rf .version .branch build/*
+	@$(COMMAND_RM) --force --recursive .version .branch build/*
 
 .clean-build:
-	@$(RM) -rf build/*
+	@$(COMMAND_RM) --force --recursive build/*
 
 clean: .clean-all

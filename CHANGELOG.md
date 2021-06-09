@@ -1,3 +1,11 @@
+v - Wed Jun 9 20:38:39 2021 +1000
+--------------------------------------
+ - [09600c9](../../commit/09600c9) Updated package.json Fixed missing version string.
+ - [a2fbda8](../../commit/a2fbda8) Merge pull request #15 from dmblack/development
+ - [fb6ee7f](../../commit/fb6ee7f) Updated favicon.ico No longer uses default react icon. Is now the font-awesome search icon.
+ - [93da930](../../commit/93da930) Updated CHANGELOG.md Manually added versions to headers. Added space between releases (Fixing layout)
+ - [0e4eecc](../../commit/0e4eecc) Updated Makefile Added some cleanup behavior for; .version .branch Fixed version behavior to avoid conflicts. Added newline to fix issues with changelog as per v0.1.2
+
 v0.1.2 - Tue May 18 21:03:34 2021 +1000
 --------------------------------------
  - [0f5e07e](../../commit/0f5e07e) Updated .gitignore Removed .branch, .version Updated Makefile Fixed; Version handling in changelog generation. Fixed version handling in package.json.

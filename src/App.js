@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import './App.css';
 import ISMControl from './ISMControl.js';
@@ -8,31 +8,44 @@ import ISMRaw from './ISM.json';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const App = () => {
-  const [ descriptionFilter, setDescriptionFilter ] = useState(
-    ''
-  );
+  const ISM = ISMRaw.ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier);
 
-	const [ guidelineFilter, setGuidelineFilter ] = useState(
-		''
-	);
+  const [ interrogate, setInterrogate ] = useState({
+    controls: ISM,
+    controlList: ISM,
+    controlsTagged: [ ],
+    descriptionFilter: '',
+    guidelineFilter: '',
+    identifierFilter: ''
+  });
 
-	const [ identifierFilter, setIdentifierFilter ] = useState(
-    ''
-	);
-  
-  const ISM = ISMRaw.ISM.Control;
-  const ISMControls = ISM
-    .filter((control) => control.Description.toLowerCase().includes(descriptionFilter.toLowerCase()))
-	  .filter((control) => control.Guideline.toLowerCase().includes(guidelineFilter.toLowerCase()))
-	  .filter((control) => (identifierFilter.split(',')[0] === '')
-      ? true
-      : identifierFilter.split(',').includes(control.Identifier))
-	  .sort((controlA, controlB) => controlA.Identifier - controlB.Identifier)
-    .map((control) => <ISMControl key={control.Identifier} control={control} />);
+  useEffect(() => {
+    setInterrogate((previousState) => ({
+      ...previousState,
+      controlList: interrogate.controls
+        .filter(control => control.Description.toLowerCase().includes(interrogate.descriptionFilter.toLowerCase()))
+        .filter(control => control.Guideline.toLowerCase().includes(interrogate.guidelineFilter.toLowerCase()))
+        .filter(control => (interrogate.identifierFilter.split(',')[0] === '')
+          ? true
+          : interrogate.identifierFilter.split(',').includes(control.Identifier))
+    }))
+  }, [interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter])
 
-  const handleDescriptionChange = e => setDescriptionFilter(e.target.value);
-	const handleGuidelineChange = e => setGuidelineFilter(e.target.value);
-	const handleIdentifierChange = e => setIdentifierFilter(e.target.value);
+  const handleDescriptionChange = e => {
+    setInterrogate({...interrogate, 
+      descriptionFilter: e.target.value});
+  }
+	const handleGuidelineChange = e => setInterrogate({...interrogate, guidelineFilter: e.target.value});
+	const handleIdentifierChange = e => setInterrogate({...interrogate, identifierFilter: e.target.value});
+
+  const handleTagControl = identifier => {
+    console.log(identifier)
+    const newTaggedControls = interrogate.controlsTagged.includes(identifier)
+      ? interrogate.controlsTagged.filter(control => control !== identifier)
+      : [...interrogate.controlsTagged, identifier]
+    
+    setInterrogate({...interrogate, controlsTagged: newTaggedControls})
+  }
 
 	const guidelines = [...new Set(ISM
 	  .map((control) => control.Guideline))];
@@ -55,7 +68,7 @@ const App = () => {
           minLength={2}
           debounceTimeout={350}
 		      id="description"
-          value={descriptionFilter}
+          value={interrogate.descriptionFilter}
           type="text"
 				  onChange={handleDescriptionChange}
 		      className="form-control col-sm-10"
@@ -86,7 +99,7 @@ const App = () => {
 		      minLength={1}
 		      debounceTimeout={350}
 		      id="identifier"
-		      value={identifierFilter}
+		      value={interrogate.identifierFilter}
 		      type="text"
 		      onChange={handleIdentifierChange}
 		      className="form-control col-sm-10"
@@ -94,10 +107,14 @@ const App = () => {
 		    />
 		  </div>
       <div className="modal-header">
-        <h4 className="title">Controls ({ISMControls.length})</h4>
+        <h4 className="control-counter">Controls ({interrogate.controlList.length})</h4>
+        <h4 className="control-counter-tagged">{interrogate.controlsTagged.length > 0 && 'Tagged (' + interrogate.controlsTagged.length + ')'}</h4>
       </div>
       <div className="list-group">
-        {ISMControls}
+        {
+        interrogate.controlList
+          .map((control) => <ISMControl key={control.Identifier} control={control} tagged={interrogate.controlsTagged.includes(control.Identifier)} tag={() => { handleTagControl(control.Identifier)}}/>)
+        }
 	    </div>
     </div>
   );

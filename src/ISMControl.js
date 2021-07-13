@@ -1,10 +1,12 @@
 import React from 'react';
 import './ISMControl.css';
 import ScrollableAnchor from 'react-scrollable-anchor'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTag } from '@fortawesome/free-solid-svg-icons'
 
 function ISMControl(props) {
   return (
-    <div className="list-group-item list-group-item-action flex-column align-tems-start control">
+    <div className="list-group-item list-group-item-action flex-column align-tems-start control" onClick={props.tag}>
       <ScrollableAnchor id={props.control.Identifier}>
         <div className="d-flex w-100 justify-content-between control-identifier">
 	        <h1 className="mb-1">
@@ -17,6 +19,13 @@ function ISMControl(props) {
               {props.control.SECRET === "Yes" ? "SECRET " : ""}
               {props.control.TOP_SECRET === "Yes" ? "TOP_SECRET " : ""}
             ]
+            {
+              props.tagged &&
+                <FontAwesomeIcon
+                  className="tagged"
+                  icon={faTag}
+                />
+            }
 	        </small>
 	      </div>
 	    </ScrollableAnchor>

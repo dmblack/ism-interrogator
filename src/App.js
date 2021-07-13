@@ -31,10 +31,7 @@ const App = () => {
     }))
   }, [interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter])
 
-  const handleDescriptionChange = e => {
-    setInterrogate({...interrogate, 
-      descriptionFilter: e.target.value});
-  }
+  const handleDescriptionChange = e => setInterrogate({...interrogate, descriptionFilter: e.target.value});
 	const handleGuidelineChange = e => setInterrogate({...interrogate, guidelineFilter: e.target.value});
 	const handleIdentifierChange = e => setInterrogate({...interrogate, identifierFilter: e.target.value});
 

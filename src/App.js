@@ -6,17 +6,44 @@ import './App.css';
 import ISMControl from './ISMControl.js';
 import ISMRaw from './ISM.json';
 import 'bootstrap/dist/css/bootstrap.css';
+import {
+  useLocation
+} from "react-router-dom";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
 
 const App = () => {
+  /**
+   * Handles populating our controls from URL
+   * 
+   * We use the identifierFilter feature to present them by default.
+   * 
+   * If the query string includes controls, set it as opening state.
+   *  if not; simply set '' as opening state.
+   */
+  const urlQueryControls = useQuery().get('controls');
+  const urlControls = urlQueryControls === null
+    ? ''
+    : urlQueryControls;
+  /**
+   * As above, we use the same behavior to populate tagged controls.
+   */
+  const urlQueryControlsTagged = useQuery().get('tagged');
+  const urlControlsTagged = urlQueryControlsTagged === null
+    ? []
+    : urlQueryControlsTagged.split(',');
+
   const ISM = ISMRaw.ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier);
 
   const [ interrogate, setInterrogate ] = useState({
     controls: ISM,
     controlList: ISM,
-    controlsTagged: [ ],
+    controlsTagged: urlControlsTagged,
     descriptionFilter: '',
     guidelineFilter: '',
-    identifierFilter: ''
+    identifierFilter: urlControls
   });
 
   useEffect(() => {
@@ -55,53 +82,53 @@ const App = () => {
         <h4 className="title" id="search">Search</h4>
       </div>
       <div className="form-group row filters">
-		    <label
-		      htmlFor="description"
-		      className="col-sm-2 col-form-label">
-		      Description
-		    </label>
+        <label
+          htmlFor="description"
+          className="col-sm-2 col-form-label">
+          Description
+        </label>
         <DebounceInput
           minLength={2}
           debounceTimeout={350}
-		      id="description"
+          id="description"
           value={interrogate.descriptionFilter}
           type="text"
-				  onChange={handleDescriptionChange}
-		      className="form-control col-sm-10"
+          onChange={handleDescriptionChange}
+          className="form-control col-sm-10"
         />
       </div>
       <div className="form-group row">
-		    <label
-		      htmlFor="guideline"
-		      className="col-sm-2 col-form-label">
-		      Guideline
-		    </label>
-		    <select
-				  name="guideline"
-				  id="guideline"
-		      onChange={handleGuidelineChange}
-		      className="form-control col-sm-10">
-		      <option value=""></option>
-				  {guidelineOptions}
-		    </select>
-		  </div>
+        <label
+          htmlFor="guideline"
+          className="col-sm-2 col-form-label">
+          Guideline
+        </label>
+        <select
+          name="guideline"
+          id="guideline"
+          onChange={handleGuidelineChange}
+          className="form-control col-sm-10">
+          <option value=""></option>
+          {guidelineOptions}
+        </select>
+      </div>
       <div className="form-group row">
-		    <label
-		      htmlFor="identifier"
-		      className="col-sm-2 col-form-label">
-				  Identifier
-		    </label>
-		    <DebounceInput
-		      minLength={1}
-		      debounceTimeout={350}
-		      id="identifier"
-		      value={interrogate.identifierFilter}
-		      type="text"
-		      onChange={handleIdentifierChange}
-		      className="form-control col-sm-10"
+        <label
+          htmlFor="identifier"
+          className="col-sm-2 col-form-label">
+          Identifier
+        </label>
+        <DebounceInput
+          minLength={1}
+          debounceTimeout={350}
+          id="identifier"
+          value={interrogate.identifierFilter}
+          type="text"
+          onChange={handleIdentifierChange}
+          className="form-control col-sm-10"
           data-tip="Separate multiple with ','"
-		    />
-		  </div>
+        />
+      </div>
       <div className="modal-header">
         <h4 className="control-counter">Controls ({interrogate.controlList.length})</h4>
         <h4 className="control-counter-tagged">{interrogate.controlsTagged.length > 0 && 'Tagged (' + interrogate.controlsTagged.length + ')'}</h4>
@@ -111,7 +138,7 @@ const App = () => {
         interrogate.controlList
           .map((control) => <ISMControl key={control.Identifier} control={control} tagged={interrogate.controlsTagged.includes(control.Identifier)} tag={() => { handleTagControl(control.Identifier)}}/>)
         }
-	    </div>
+      </div>
     </div>
   );
 }

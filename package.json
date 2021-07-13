@@ -16,6 +16,7 @@
     "react": "^16.13.1",
     "react-debounce-input": "^3.2.2",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-scrollable-anchor": "^0.6.1",
     "struct.js": "git+https://github.com/dmblack/struct.js.git"

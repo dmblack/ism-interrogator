@@ -39,7 +39,6 @@ const App = () => {
 	const handleIdentifierChange = e => setInterrogate({...interrogate, identifierFilter: e.target.value});
 
   const handleTagControl = identifier => {
-    console.log(identifier)
     const newTaggedControls = interrogate.controlsTagged.includes(identifier)
       ? interrogate.controlsTagged.filter(control => control !== identifier)
       : [...interrogate.controlsTagged, identifier]

@@ -15,7 +15,9 @@ const useQuery = () => {
 }
 
 const App = () => {
-  /**
+  const { hash } = useLocation();
+
+   /**
    * Handles populating our controls from URL
    * 
    * We use the identifierFilter feature to present them by default.
@@ -56,7 +58,22 @@ const App = () => {
           ? true
           : interrogate.identifierFilter.split(',').includes(control.Identifier))
     }))
-  }, [interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter])
+
+    // if no hash link, scroll to top
+    if (hash === '') {
+      window.scrollTo(0, 0);
+    }
+    // else scroll to id
+    else {
+      setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView();
+        }
+      }, 0);
+    }
+  }, [interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter, hash])
 
   const handleDescriptionChange = e => setInterrogate({...interrogate, descriptionFilter: e.target.value});
 	const handleGuidelineChange = e => setInterrogate({...interrogate, guidelineFilter: e.target.value});
@@ -136,7 +153,7 @@ const App = () => {
       <div className="list-group">
         {
         interrogate.controlList
-          .map((control) => <ISMControl key={control.Identifier} control={control} tagged={interrogate.controlsTagged.includes(control.Identifier)} tag={() => { handleTagControl(control.Identifier)}}/>)
+          .map((control) => <ISMControl control={control} key={control.Identifier} tag={() => { handleTagControl(control.Identifier)}} tagged={interrogate.controlsTagged.includes(control.Identifier)} />)
         }
       </div>
     </div>

@@ -11,6 +11,19 @@
   margin-top:10px;
 }
 
+.chevron {
+  opacity: 50%;
+}
+
+.collapse-content.collapsed {
+  display: none;
+  visibility: hidden;
+}
+
+.collapsed-content.expanded {
+  display: block;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

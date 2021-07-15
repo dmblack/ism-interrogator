@@ -5,6 +5,9 @@
   "homepage": "http://dmblack.github.io/ism-interrogator",
   "remote": "git@github.com:dmblack/ism-interrogator",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -13,8 +16,8 @@
     "react": "^16.13.1",
     "react-debounce-input": "^3.2.2",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-scrollable-anchor": "^0.6.1",
     "struct.js": "git+https://github.com/dmblack/struct.js.git"
   },
   "scripts": {

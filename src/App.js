@@ -166,7 +166,7 @@ const App = () => {
       </div>
       <div className="modal-header">
         <h4 className="control-counter">Controls ({interrogate.controlList.length})</h4>
-        <h4 className="control-counter-tagged">{interrogate.controlsTagged.length > 0 && 'Tagged (' + interrogate.controlsTagged.length + ')'}</h4>
+        <h4 className="control-counter-tagged" onDoubleClick={() => {navigator.clipboard.writeText('http://dmblack.github.io/ism-interrogator/?controls=' + interrogate.controlsTagged.join(','))}} onClick={() => {navigator.clipboard.writeText('http://dmblack.github.io/ism-interrogator/?tagged=' + interrogate.controlsTagged.join(','))}}>{interrogate.controlsTagged.length > 0 && 'Tagged (' + interrogate.controlsTagged.length + ')'}</h4>
       </div>
       <div className="list-group">
         {

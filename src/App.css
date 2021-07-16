@@ -11,10 +11,6 @@
   margin-top:10px;
 }
 
-.chevron {
-  opacity: 50%;
-}
-
 .collapse-content.collapsed {
   display: none;
   visibility: hidden;

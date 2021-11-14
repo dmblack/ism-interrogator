@@ -3,7 +3,6 @@ import 'react-app-polyfill/stable';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import ISMControl from './ISMControl.js';
-import ISMRaw from './ISM.json';
 import Filter from './Filter.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
@@ -38,17 +37,25 @@ const App = () => {
   const urlControlsTagged = urlQueryControlsTagged === null
     ? []
     : urlQueryControlsTagged.split(',');
+  /**
+   * As above, we use the same behavior to populate a version.
+   */
+  const urlQueryVersion = useQuery().get('version');
+  const urlVersion = urlQueryVersion === null
+    ? 'current'
+    : urlQueryVersion;
 
-  const ISM = ISMRaw.ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier);
+  // const ISM = require('./ISM.current.json').ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier);
 
   const [ interrogate, setInterrogate ] = useState({
-    controls: ISM,
-    controlList: ISM,
+    controls: require('./ism/' + urlVersion + '.json').ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier),
+    controlList: [],
     controlsTagged: urlControlsTagged,
     descriptionFilter: '',
     guidelineFilter: '',
     identifierFilter: urlControls,
-    searchCollapse: false
+    searchCollapse: false,
+    version: 'current'
   });
 
   useEffect(() => {
@@ -60,7 +67,7 @@ const App = () => {
         .filter(control => (interrogate.identifierFilter.split(',')[0] === '')
           ? true
           : interrogate.identifierFilter.split(',').includes(control.Identifier))
-    }))
+    }));
 
     // if no hash link, scroll to top
     if (hash === '') {
@@ -76,12 +83,13 @@ const App = () => {
         }
       }, 0);
     }
-  }, [interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter, hash])
+  }, [hash, interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter, interrogate.version])
 
   const handleDescriptionChange = value => setInterrogate({...interrogate, descriptionFilter: value});
 	const handleGuidelineChange = value => setInterrogate({...interrogate, guidelineFilter: value});
 	const handleIdentifierChange = value => setInterrogate({...interrogate, identifierFilter: value});
-  const handleSearchCollapse = () => setInterrogate({...interrogate, searchCollapse: !interrogate.searchCollapse})
+  const handleSearchCollapse = () => setInterrogate({...interrogate, searchCollapse: !interrogate.searchCollapse});
+  const handleVersionChange = value => setInterrogate({...interrogate, version: value});
 
   const handleTagControl = identifier => {
     const newTaggedControls = interrogate.controlsTagged.includes(identifier)
@@ -91,7 +99,7 @@ const App = () => {
     setInterrogate({...interrogate, controlsTagged: newTaggedControls})
   }
 
-	const guidelines = [...new Set(ISM
+	const guidelines = [...new Set(interrogate.controls
 	  .map((control) => control.Guideline))];
 
 	const guidelineOptions = guidelines

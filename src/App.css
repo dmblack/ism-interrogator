@@ -7,10 +7,6 @@
   pointer-events: none;
 }
 
-.filters {
-  margin-top:10px;
-}
-
 .collapse-content.collapsed {
   display: none;
   visibility: hidden;

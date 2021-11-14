@@ -1,17 +1,16 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { useEffect, useState } from 'react';
-import { DebounceInput } from 'react-debounce-input';
 import './App.css';
 import ISMControl from './ISMControl.js';
 import ISMRaw from './ISM.json';
+import Filter from './Filter.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   useLocation
 } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -79,10 +78,10 @@ const App = () => {
     }
   }, [interrogate.controls, interrogate.descriptionFilter, interrogate.guidelineFilter, interrogate.identifierFilter, hash])
 
-  const handleDescriptionChange = e => setInterrogate({...interrogate, descriptionFilter: e.target.value});
-	const handleGuidelineChange = e => setInterrogate({...interrogate, guidelineFilter: e.target.value});
-	const handleIdentifierChange = e => setInterrogate({...interrogate, identifierFilter: e.target.value});
-  const handleSearchCollapse = e => setInterrogate({...interrogate, searchCollapse: !interrogate.searchCollapse})
+  const handleDescriptionChange = value => setInterrogate({...interrogate, descriptionFilter: value});
+	const handleGuidelineChange = value => setInterrogate({...interrogate, guidelineFilter: value});
+	const handleIdentifierChange = value => setInterrogate({...interrogate, identifierFilter: value});
+  const handleSearchCollapse = () => setInterrogate({...interrogate, searchCollapse: !interrogate.searchCollapse})
 
   const handleTagControl = identifier => {
     const newTaggedControls = interrogate.controlsTagged.includes(identifier)
@@ -115,54 +114,13 @@ const App = () => {
       </div>
       <div className={`collapse-content ${interrogate.searchCollapse ? 'collapsed' : 'expanded'}`}
         aria-expanded={interrogate.searchCollapse}>
-        <div className="form-group row filters">
-          <label
-            htmlFor="description"
-            className="col-sm-2 col-form-label">
-            Description
-          </label>
-          <DebounceInput
-            minLength={2}
-            debounceTimeout={350}
-            id="description"
-            value={interrogate.descriptionFilter}
-            type="text"
-            onChange={handleDescriptionChange}
-            className="form-control col-sm-10"
-          />
-        </div>
-        <div className="form-group row">
-          <label
-            htmlFor="guideline"
-            className="col-sm-2 col-form-label">
-            Guideline
-          </label>
-          <select
-            name="guideline"
-            id="guideline"
-            onChange={handleGuidelineChange}
-            className="form-control col-sm-10">
-            <option value=""></option>
-            {guidelineOptions}
-          </select>
-        </div>
-        <div className="form-group row">
-          <label
-            htmlFor="identifier"
-            className="col-sm-2 col-form-label">
-            Identifier
-          </label>
-          <DebounceInput
-            minLength={1}
-            debounceTimeout={350}
-            id="identifier"
-            value={interrogate.identifierFilter}
-            type="text"
-            onChange={handleIdentifierChange}
-            className="form-control col-sm-10"
-            data-tip="Separate multiple with ','"
-          />
-        </div>
+        <Filter 
+          handleDescriptionChange={handleDescriptionChange}
+          handleGuidelineChange={handleGuidelineChange}
+          handleIdentifierChange={handleIdentifierChange}
+          guidelineOptions={guidelineOptions}
+          interrogate={interrogate}
+        />
       </div>
       <div className="modal-header">
         <h4 className="control-counter">Controls ({interrogate.controlList.length})</h4>

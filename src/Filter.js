@@ -2,7 +2,6 @@ import debounce from 'lodash.debounce';
 import './Filter.css';
 import { React, useEffect } from 'react';
 
-
 const Filter = (props) => {
   const handleChange = event => {
     emitChangeDebounced(event);
@@ -19,6 +18,9 @@ const Filter = (props) => {
       case 'identifier':
         props.handleIdentifierChange(event.value);
         break;
+      case 'version':
+        props.handleVersionChange(event.value);
+        break;
       default:
         break;
     }
@@ -32,6 +34,22 @@ const Filter = (props) => {
 
   return (
     <form className="filters">
+      <div className="filter form-group row">
+        <label
+          htmlFor="version"
+          className="col-sm-2 col-form-label">
+          Version
+        </label>
+        <div className="col-sm-10">
+          <select
+            name="version"
+            id="version"
+            onChange={(e) => { handleChange({ context: 'version', value: e.target.value })}}
+            className="form-control">
+            {props.versionOptions}
+          </select>
+        </div>
+      </div>
       <div className="filter form-group row">
         <label
           htmlFor="description"

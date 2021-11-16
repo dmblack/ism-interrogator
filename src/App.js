@@ -24,8 +24,8 @@ const App = () => {
    *  (Matches ASD ISM)
    */
   const validVersions = [
-    '202106',
-    '202109'
+    '202109',
+    '202106'
   ]
 
    /**
@@ -68,7 +68,7 @@ const App = () => {
     guidelineFilter: '',
     identifierFilter: urlControls,
     searchCollapse: false,
-    version: 'current'
+    version: urlVersion
   });
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const App = () => {
 	const handleGuidelineChange = value => setInterrogate({...interrogate, guidelineFilter: value});
 	const handleIdentifierChange = value => setInterrogate({...interrogate, identifierFilter: value});
   const handleSearchCollapse = () => setInterrogate({...interrogate, searchCollapse: !interrogate.searchCollapse});
-  const handleVersionChange = value => setInterrogate({...interrogate, version: value});
+  const handleVersionChange = value => setInterrogate({...interrogate, version: value, controls: require('./ism/' + value + '.json').ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier)});
 
   const handleTagControl = identifier => {
     const newTaggedControls = interrogate.controlsTagged.includes(identifier)
@@ -117,6 +117,9 @@ const App = () => {
 
 	const guidelineOptions = guidelines
   	.map((guideline) => <option key={guideline} value={guideline}>{guideline}</option>);
+
+	const versionOptions = validVersions
+  	.map((version) => <option key={version} value={version}>{version}</option>);
 
   return (
     <div className="App container">
@@ -139,8 +142,10 @@ const App = () => {
           handleDescriptionChange={handleDescriptionChange}
           handleGuidelineChange={handleGuidelineChange}
           handleIdentifierChange={handleIdentifierChange}
+          handleVersionChange={handleVersionChange}
           guidelineOptions={guidelineOptions}
           interrogate={interrogate}
+          versionOptions={versionOptions}
         />
       </div>
       <div className="modal-header">

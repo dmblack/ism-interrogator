@@ -55,7 +55,7 @@ const App = () => {
    */
   const urlQueryVersion = useQuery().get('version');
   const urlVersion = urlQueryVersion === null
-    ? validVersions.at(-1)
+    ? validVersions[0]
     : urlQueryVersion;
   /**
    * Our Application State

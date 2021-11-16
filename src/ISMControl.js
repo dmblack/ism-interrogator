@@ -12,10 +12,10 @@ const ISMControl = (props) => {
         </h1>
         <small className="control-applicability">
           [
-          {props.control.OFFICIAL === "Yes" ? " OFFICIAL " : " "}
-          {props.control.PROTECTED === "Yes" ? "PROTECTED " : ""}
-          {props.control.SECRET === "Yes" ? "SECRET " : ""}
-          {props.control.TOP_SECRET === "Yes" ? "TOP_SECRET " : ""}
+          {props.control.OFFICIAL === "Yes" || props.control.OFFICIAL === "true" ? " OFFICIAL " : " "}
+          {props.control.PROTECTED === "Yes" || props.control.PROTECTED === "true" ? "PROTECTED " : ""}
+          {props.control.SECRET === "Yes" || props.control.SECRET === "true" ? "SECRET " : ""}
+          {props.control.TOP_SECRET === "Yes" || props.control.TOP_SECRET === "true" ? "TOP_SECRET " : ""}
           ]
           {
             props.tagged &&

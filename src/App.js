@@ -18,6 +18,16 @@ const useQuery = () => {
 const App = () => {
   const { hash } = useLocation();
 
+  /**
+   * We currently populate the valid versions manually.
+   *  Format; YYYYMM
+   *  (Matches ASD ISM)
+   */
+  const validVersions = [
+    '202106',
+    '202109'
+  ]
+
    /**
    * Handles populating our controls from URL
    * 
@@ -39,14 +49,17 @@ const App = () => {
     : urlQueryControlsTagged.split(',');
   /**
    * As above, we use the same behavior to populate a version.
+   * 
+   *   In our case; we also populate to load the last version in the 
+   *    array (latest).
    */
   const urlQueryVersion = useQuery().get('version');
   const urlVersion = urlQueryVersion === null
-    ? 'current'
+    ? validVersions.at(-1)
     : urlQueryVersion;
-
-  // const ISM = require('./ISM.current.json').ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier);
-
+  /**
+   * Our Application State
+   */
   const [ interrogate, setInterrogate ] = useState({
     controls: require('./ism/' + urlVersion + '.json').ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier),
     controlList: [],

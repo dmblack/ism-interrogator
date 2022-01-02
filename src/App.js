@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import ISMControl from './ISMControl.js';
+import ISM from './ISM.js';
 import Filter from './Filter.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
@@ -18,12 +18,7 @@ const useQuery = () => {
 const App = () => {
   const { hash } = useLocation();
 
-  /**
-   * We currently populate the valid versions manually.
-   *  Format; YYYYMM
-   *  (Matches ASD ISM)
-   */
-  const validVersions = [
+  const versionsValid = [
     '202109',
     '202106',
     '202104',
@@ -54,7 +49,6 @@ const App = () => {
     '201901',
     '201811',
   ]
-
    /**
    * Handles populating our controls from URL
    * 
@@ -82,7 +76,7 @@ const App = () => {
    */
   const urlQueryVersion = useQuery().get('version');
   const urlVersion = urlQueryVersion === null
-    ? validVersions[0]
+    ? versionsValid[0]
     : urlQueryVersion;
   /**
    * Our Application State
@@ -95,7 +89,8 @@ const App = () => {
     guidelineFilter: '',
     identifierFilter: urlControls,
     searchCollapse: false,
-    version: urlVersion
+    version: urlVersion,
+    versionsValid: versionsValid
   });
 
   useEffect(() => {
@@ -131,21 +126,13 @@ const App = () => {
   const handleSearchCollapse = () => setInterrogate({...interrogate, searchCollapse: !interrogate.searchCollapse});
   const handleVersionChange = value => setInterrogate({...interrogate, version: value, controls: require('./ism/' + value + '.json').ISM.Control.sort((controlA, controlB) => controlA.Identifier - controlB.Identifier)});
 
-  const handleTagControl = identifier => {
-    const newTaggedControls = interrogate.controlsTagged.includes(identifier)
-      ? interrogate.controlsTagged.filter(control => control !== identifier)
-      : [...interrogate.controlsTagged, identifier]
-    
-    setInterrogate({...interrogate, controlsTagged: newTaggedControls})
-  }
-
 	const guidelines = [...new Set(interrogate.controls
 	  .map((control) => control.Guideline))];
 
 	const guidelineOptions = guidelines
   	.map((guideline) => <option key={guideline} value={guideline}>{guideline}</option>);
 
-	const versionOptions = validVersions
+	const versionOptions = versionsValid
   	.map((version) => <option key={version} value={version}>{version}</option>);
 
   return (
@@ -179,12 +166,7 @@ const App = () => {
         <h4 className="control-counter">Controls ({interrogate.controlList.length})</h4>
         <h4 className="control-counter-tagged" onDoubleClick={() => {navigator.clipboard.writeText('http://dmblack.github.io/ism-interrogator/?controls=' + interrogate.controlsTagged.join(','))}} onClick={() => {navigator.clipboard.writeText('http://dmblack.github.io/ism-interrogator/?tagged=' + interrogate.controlsTagged.join(','))}}>{interrogate.controlsTagged.length > 0 && 'Tagged (' + interrogate.controlsTagged.length + ')'}</h4>
       </div>
-      <div className="list-group">
-        {
-        interrogate.controlList
-          .map((control) => <ISMControl control={control} key={control.Identifier} tag={() => { handleTagControl(control.Identifier)}} tagged={interrogate.controlsTagged.includes(control.Identifier)} test={() => { console.log('Test')}} />)
-        }
-      </div>
+      <ISM version='' interrogate={interrogate} setInterrogate={setInterrogate}></ISM>
     </div>
   );
 }

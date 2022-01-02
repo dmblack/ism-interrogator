@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './ISMControl.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag } from '@fortawesome/free-solid-svg-icons'
@@ -46,3 +47,30 @@ const ISMControl = (props) => {
 }
 
 export default ISMControl;
+
+ISMControl.propTypes = {
+    control: PropTypes.shape({
+      Description: PropTypes.string.isRequired,
+      Guideline: PropTypes.string.isRequired,
+      Identifier: PropTypes.string.isRequired,
+      OFFICIAL: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
+      PROTECTED: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
+      Revision: PropTypes.string.isRequired,
+      SECRET: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
+      TOP_SECRET: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
+      Topic: PropTypes.string.isRequired,
+      Updated: PropTypes.string.isRequired
+    })
+}

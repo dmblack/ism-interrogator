@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/ism-interrogator/static/css/main.09e4fda1.css",
-    "main.js": "/ism-interrogator/static/js/main.29c33288.js",
+    "main.css": "/ism-interrogator/static/css/main.2d6914c4.css",
+    "main.js": "/ism-interrogator/static/js/main.c2ebbf2a.js",
     "index.html": "/ism-interrogator/index.html",
-    "main.09e4fda1.css.map": "/ism-interrogator/static/css/main.09e4fda1.css.map",
-    "main.29c33288.js.map": "/ism-interrogator/static/js/main.29c33288.js.map"
+    "main.2d6914c4.css.map": "/ism-interrogator/static/css/main.2d6914c4.css.map",
+    "main.c2ebbf2a.js.map": "/ism-interrogator/static/js/main.c2ebbf2a.js.map"
   },
   "entrypoints": [
-    "static/css/main.09e4fda1.css",
-    "static/js/main.29c33288.js"
+    "static/css/main.2d6914c4.css",
+    "static/js/main.c2ebbf2a.js"
   ]
 }

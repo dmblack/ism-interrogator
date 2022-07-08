@@ -19,6 +19,7 @@ const App = () => {
   const { hash } = useLocation();
 
   const versionsValid = [
+    '202206',
     '202203',
     '202112',
     '202109',
